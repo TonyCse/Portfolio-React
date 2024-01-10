@@ -26,8 +26,8 @@ function Navbar() {
                         <span className='nav-icon'></span>
                   </label>
                   <ul className='menu'>
-                        <li><Link to='#'>01. À propos de moi</Link></li>
-                        <li><Link to='#'>02. Expériences professionnelles / Formations</Link></li>
+                        <li><Link to='about'>01. À propos de moi</Link></li>
+                        <li><Link to='experiences'>02. Expériences professionnelles</Link></li>
                         <li><Link to='#'>03. Mes projets</Link></li>
                   </ul>
             </nav>
