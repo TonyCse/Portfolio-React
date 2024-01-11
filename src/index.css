@@ -24,6 +24,28 @@ input{
   outline: none;
   border: none;
 }
+
+.chargement{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: fixed !important;
+  text-align: center;
+  top: 40%;
+  left: 45%;
+}
+
+.chargement img{
+  width: 240px;
+}
+
+.chargement h2{
+  font: 4em 'Archivo Black' !important; 
+  margin: 0 0 30px 0;
+  color: white;
+}
+
 .logo img{
   width: 90px;
 }
@@ -33,8 +55,12 @@ input{
   align-items: center;
   margin:  450px 0px;
   width:100%;
-  z-index: 0;
 }
+
+#main img{
+  padding: 15px;
+}
+
 nav{
   display: flex;
   justify-content: space-between;
@@ -413,6 +439,10 @@ width: 600px;
     flex-direction: column;
     align-items: center;
   }
+  .projets-main{
+    flex-direction: column;
+    margin: 20px;
+  }
 }
 
 @media(max-width:1100px){
@@ -507,16 +537,33 @@ width: 600px;
       }
       nav .menu-btn:checked ~ .menu{
           display:block;
-      }}
-
+      }
+    
       .about-main{
         margin-top: 20px;
         display: flex;
         flex-direction: column;
         align-items: center;
       }
+      .projets-main{
+        flex-direction: column;
+        margin: 20px;
+      }
+
+      .projets-card{
+        width: 100%;
+        margin-bottom: 30px;
+      }
+    }
 
       @media(max-width:400px){
+
+
+        .chargement{
+          top: 15%;
+          left: 15%;
+      
+        }
 
         nav ul li a:hover{
           cursor: pointer;
