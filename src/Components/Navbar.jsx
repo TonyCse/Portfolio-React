@@ -17,20 +17,22 @@ function Navbar() {
       window.addEventListener('scroll', changeBackground)
 
       return (
-            <nav className={nav ? " nav active" : "nav"}>
-                  <Link to='#' className='logo'>
-                        <img src={logo} alt=''/>
-                  </Link>
-                  <input className='menu-btn' type='checkbox' id='menu-btn'/>
-                  <label className='menu-icon' for='menu-btn'>
-                        <span className='nav-icon'></span>
-                  </label>
-                  <ul className='menu'>
-                        <li><Link to='about'>01. À propos de moi</Link></li>
-                        <li><Link to='experiences'>02. Expériences professionnelles</Link></li>
-                        <li><Link to='#'>03. Mes projets</Link></li>
-                  </ul>
-            </nav>
+            <div id='nav'>
+                  <nav className={nav ? " nav active" : "nav"}>
+                        <Link to='nav' className='logo'>
+                              <img src={logo} alt=''/>
+                        </Link>
+                        <input className='menu-btn' type='checkbox' id='menu-btn'/>
+                        <label className='menu-icon' for='menu-btn'>
+                              <span className='nav-icon'></span>
+                        </label>
+                        <ul className='menu'>
+                              <li><Link to='about'>01. À propos de moi</Link></li>
+                              <li><Link to='experiences'>02. Mon parcours</Link></li>
+                              <li><Link to='projets'>03. Mes projets</Link></li>
+                        </ul>
+                  </nav>
+            </div>
       )
 }
 
