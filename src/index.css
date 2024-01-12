@@ -16,13 +16,16 @@ a{
   text-decoration: none;
   color: white;
 }
-button{
-  outline: none;
-  border: none;
+
+@property --rotate {
+  syntax: "<angle>";
+  initial-value: 132deg;
+  inherits: false;
 }
-input{
-  outline: none;
-  border: none;
+
+:root {
+  --photo-height: 65vh;
+  --photo-width: calc(var(--photo-height) / 1.5);
 }
 
 .chargement{
@@ -46,9 +49,10 @@ input{
   color: white;
 }
 
-.logo img{
+.logo {
   width: 90px;
 }
+
 #main{
   display: flex;
   justify-content: center;
@@ -164,6 +168,54 @@ nav .menu-btn,
 }
 
 .about-photo{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.about-photo::before{
+  content: "";
+  width: 102%;
+  height: 102%;
+  border-radius: 100%;
+  background-image: linear-gradient(
+  var(--rotate)
+  , #5ddcff, #3c67e3 43%, #4e00c2);
+  position: absolute;
+  z-index: -1;
+  animation: spin 2.5s linear infinite;
+}
+
+.about-photo::after {
+  position: absolute;
+  content: "";
+  left: 0;
+  right: 0;
+  z-index: -1;
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  transform: scale(0.8);
+  filter: blur(calc(var(--photo-height) / 6));
+  background-image: linear-gradient(
+  var(--rotate)
+  , #91d7eb, #3c67e3 43%, #baadcc);
+  opacity: 1;
+  transition: opacity .5s;
+  animation: spin 2.5s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    --rotate: 0deg;
+  }
+  100% {
+    --rotate: 360deg;
+  }
+}
+
+.about-photo img{
   height: 400px;
   width: 400px;
   border-radius: 50%;
@@ -180,14 +232,6 @@ nav .menu-btn,
   width: 80%;
   font-size: 1.2rem;
   color:#cecece;
-}
-
-.about-image{
-  width: 50%;
-}
-
-.about-image img{
-width: 600px;
 }
 
 #experiences{
@@ -257,50 +301,29 @@ width: 600px;
 }
 
 .projets-main{
-  margin: 100px;
   display: flex;
-  justify-content: space-around;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .projets-card{
-  width: 460px;
-  border: 2px solid rgb(91, 177, 171);
-  border-radius: 6px;
-  display: flex;
-  flex-direction: column;
-}
-
-.projets-main img{
-  width: 100%;
-  border-radius: 6px 6px 0 0;
-}
-
-.projets-header{
-  height: 30%;
-}
-
-.projets-body{
-  padding: 10px;
+  margin: 40px;
+  flex: 1;
   color: white;
-  line-height: 1.4;
 }
 
-.projets-body img{
-  height: 40px;
-  width: 40px;
+.projets-card img{
+  width: 600px;
+  height: 300px;
+  filter:brightness(0.3)
 }
 
-.projets-body h2{
-  font: 1.5em 'Archivo Black';
-  margin: 0px;
+.projets-card img:hover{
+  filter:brightness(1)
 }
-
-
-.projets-footer{
-  position: relative;
-  bottom: 0px;
-}
-
 
 @media(max-width:1190px){
   .about-main{
@@ -604,19 +627,31 @@ width: 600px;
           line-height: 1.4;
         }
 
-        .about-photo{
+        .about-photo img{
           width: 200px;
           height: 200px;
         }
+
+        .experiences-main{
+          margin: 20px;
+        }
+
+        .experiences-body{
+          width: 100%;
+        }
+
         .experiences-body-footer{
           display: flex;
           flex-direction: column;
           
         }
+
         .experiences-body-footer span {
           margin-bottom: 20px;
-          min-width: 130px;
+          text-align: center;
+          width: 130px;
         }
+
         .projets-main{
           flex-direction: column;
           margin: 20px;

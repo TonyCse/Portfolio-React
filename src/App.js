@@ -31,10 +31,8 @@ function App() {
                     size={30}
               />
             </div>
-
         : 
-      
-        <div> 
+        <div>
           <Navbar/>
           <Header/>
           <Presentation/>
@@ -42,8 +40,6 @@ function App() {
           <Projets/>
         </div>
       }
-
-
     </div>
   );
 }

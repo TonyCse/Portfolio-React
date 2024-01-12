@@ -9,7 +9,9 @@ function Presentation() {
                         <div className='line'></div>
                   </div>
                   <div className='about-main'>
-                        <img className='about-photo' src={photo} alt="me"/>
+                        <div className='about-photo'>
+                              <img src={photo} alt="me"/>
+                        </div>
                         <p> 
                               Bonjour ! Je m'appelle Tony, j'ai 29 ans et j'habite en région parisienne. En 2020, sur mon temps libre, je commence à me former en autodidacte au développement web et ça commence vraiment à me plaire, je me pose alors la question " Pourquoi ne pas en faire mon métier ? ". <br/><br/>
                               Aimant depuis tout petit résoudre des casses-têtes et des énigmes me voilà aux anges devant toutes ces ERROR qui s'affichent dans ma console ( ça fait pas trop zinzin ça va ? ) <br/><br/>

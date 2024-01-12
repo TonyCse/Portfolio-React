@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import logo from '../images/logo.png'
-import {Link} from 'react-scroll'
+import {Link, animateScroll as scroll} from 'react-scroll';
 
 function Navbar() {
 
@@ -17,11 +17,9 @@ function Navbar() {
       window.addEventListener('scroll', changeBackground)
 
       return (
-            <div id='nav'>
+            <div id='#'>
                   <nav className={nav ? " nav active" : "nav"}>
-                        <Link to='nav' className='logo'>
-                              <img src={logo} alt=''/>
-                        </Link>
+                              <img className='logo' src={logo} alt=''/>
                         <input className='menu-btn' type='checkbox' id='menu-btn'/>
                         <label className='menu-icon' for='menu-btn'>
                               <span className='nav-icon'></span>
