@@ -1,14 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Archivo+Black&display=swap');
 
+
 body{
   margin:0px;
   padding: 0px;
   background-color: #333A6D;
   font-family: 'Anonymous Pro', 'Archivo Black','Avenir', Helvetica, Arial, sans-serif;
 }
-*{
-  box-sizing: border-box;
-}
+
 ul{
   list-style: none;
 }
@@ -53,25 +52,17 @@ a{
   width: 90px;
 }
 
-#main{
+.home{
   display: flex;
+  min-height: 100vh;
   justify-content: center;
   align-items: center;
-  margin:  450px 0px;
-  width:100%;
-}
-
-#main img{
-  padding: 15px;
 }
 
 nav{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: fixed;
-  left: 0;
-  top: 0;
   width:100%;
   z-index: 1;
   background-color: rgb(91, 177, 171);
@@ -130,12 +121,19 @@ nav .menu-btn,
   font: 3em 'Archivo Black' !important; 
 }
 
-#about{
-  padding-top: 130px;
-  margin: 450px 0px 0px;
+.home-link{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-link img{
+  height: 60px;
+  margin: 20px;
 }
 
 .title{
+  margin-top: 100px;
   margin-left: 50px;
   margin-bottom: 100px;
   color: #fff;
@@ -234,10 +232,6 @@ nav .menu-btn,
   color:#cecece;
 }
 
-#experiences{
-  padding-top: 130px;
-  margin: 300px 0px 0px;
-}
 
 .experiences-main {
   margin: 100px;
@@ -287,36 +281,39 @@ nav .menu-btn,
   font: 1em "Anonymous Pro";
   line-height: 1.4;
 }
-.experiences-body span{
-  margin-right: 10px;
-  font-weight: bolder ;
+
+.experiences-body-footer{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.experiences-body-footer span{
+  margin: 10px;
+  font-weight: bolder;
   border-radius: 15px;
   padding: 3px 7px;
   background-color: rgb(91, 177, 171);
   color: black;
 }
 
-#projets{
-    padding-top: 130px;
-}
 
 .projets-main{
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-content: center;
+  margin: 40px;
+  display: grid;
   justify-content: center;
   align-items: center;
+  justify-items: center;
+  grid-gap: 50px;
+  grid-template-columns:  repeat(3, 1fr)
 }
 
 .projets-card{
-  margin: 40px;
-  flex: 1;
   color: white;
+  position: relative;
 }
 
-.projets-card img{
-  width: 600px;
+.projets-img{
+  width: 100%;
   height: 300px;
   filter:brightness(0.3)
 }
@@ -324,6 +321,30 @@ nav .menu-btn,
 .projets-card img:hover{
   filter:brightness(1)
 }
+
+
+.projets-icon{
+  display: flex;
+  align-items: center;
+  display: flex; 
+  align-items: center;
+  justify-content: space-between;
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  z-index: 1;
+}
+
+.projets-icon-link{
+ margin: 5px;
+ height: 55px;
+ text-align: center;
+}
+
+.projets-icon-resize{
+  margin: 10px;
+  height: 42px;
+ }
 
 @media(max-width:1190px){
   .about-main{
@@ -463,8 +484,12 @@ nav .menu-btn,
     align-items: center;
   }
   .projets-main{
-    flex-direction: column;
-    margin: 20px;
+    margin: 40px;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    grid-template-columns:  1fr
   }
 }
 
@@ -474,7 +499,7 @@ nav .menu-btn,
       nav{
           justify-content: space-between;
           height: 65px;
-          padding: 0px 30px;
+          padding: 5px 7px;
       }
       nav ul li a:hover{
         cursor: pointer;
@@ -569,8 +594,11 @@ nav .menu-btn,
         align-items: center;
       }
       .projets-main{
-        flex-direction: column;
-        margin: 20px;
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        justify-items: center;
+        grid-template-columns:  repeat(1, 1fr)
       }
 
       .projets-card{
@@ -591,10 +619,6 @@ nav .menu-btn,
         nav ul li a:hover{
           cursor: pointer;
           color:rgb(91, 177, 171);
-        }
-        #main {
-          margin-top: 60px;
-          height: 400px;
         }
         .name{
           margin-top: 200px;
@@ -652,11 +676,6 @@ nav .menu-btn,
           width: 130px;
         }
 
-        .projets-main{
-          flex-direction: column;
-          margin: 20px;
-        }
-
         .projets-card{
           width: 100%;
           margin-bottom: 30px;
@@ -676,5 +695,16 @@ nav .menu-btn,
         .line{
           margin-left: 15px;
           width: 30%;
+        }
+        .projets-main{
+          display: grid;
+          justify-content: center;
+          align-items: center;
+          justify-items: center;
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+        .projets-img{
+          height: 300px;
         }
       }

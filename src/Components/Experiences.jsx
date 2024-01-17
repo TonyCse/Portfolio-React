@@ -1,8 +1,10 @@
 import React from 'react'
+import Navbar from './Navbar'
 
 function Experiences() {
       return (
             <div id='experiences'>
+                  <Navbar/>
                   <div className='title'>
                         <h2> 02. Mon parcours</h2>
                         <div className='line'></div>

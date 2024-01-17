@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 import logo from '../images/logo.png'
-import {Link, animateScroll as scroll} from 'react-scroll';
-
+import { Link } from 'react-router-dom'
 function Navbar() {
 
       const [nav,setnav] = useState(false);
@@ -19,15 +18,18 @@ function Navbar() {
       return (
             <div id='#'>
                   <nav className={nav ? " nav active" : "nav"}>
-                              <img className='logo' src={logo} alt=''/>
+                              <Link to="/">
+
+                                    <img className='logo' src={logo} alt=''/>
+                              </Link>
                         <input className='menu-btn' type='checkbox' id='menu-btn'/>
                         <label className='menu-icon' for='menu-btn'>
                               <span className='nav-icon'></span>
                         </label>
                         <ul className='menu'>
-                              <li><Link to='about'>01. À propos de moi</Link></li>
-                              <li><Link to='experiences'>02. Mon parcours</Link></li>
-                              <li><Link to='projets'>03. Mes projets</Link></li>
+                              <li><Link to="/AboutMe">01. À propos de moi</Link></li>
+                              <li><Link to='/Experiences'>02. Mon parcours</Link></li>
+                              <li><Link to='/Projets'>03. Mes projets</Link></li>
                         </ul>
                   </nav>
             </div>
