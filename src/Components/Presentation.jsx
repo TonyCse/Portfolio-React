@@ -7,7 +7,6 @@ function Presentation() {
             <div>
                   <Navbar/>
                   <div id='presentation'>
-
                         <div className='title'>
                               <h2> 01. À propos de moi</h2>
                               <div className='line'></div>

@@ -16,7 +16,7 @@ a{
   color: white;
 }
 
-/* @property --rotate {
+@property --rotate {
   syntax: "<angle>";
   initial-value: 132deg;
   inherits: false;
@@ -46,7 +46,7 @@ a{
   font: 4em 'Archivo Black' !important; 
   margin: 0 0 30px 0;
   color: white;
-} */
+}
 
 .logo {
   width: 90px;
