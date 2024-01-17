@@ -84,6 +84,7 @@ function Projets() {
                                           </a>
                                     </div>
                               </div>
+                              <h2>WIP..</h2>
                         </div>
                   </div>
             </div>
