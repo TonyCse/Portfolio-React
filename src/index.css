@@ -315,17 +315,35 @@ nav .menu-btn,
 .projets-img{
   width: 100%;
   height: 300px;
+}
+
+.projets-card:hover .projets-img{
   filter:brightness(0.3)
 }
 
-.projets-card img:hover{
-  filter:brightness(1)
+.projets-card:hover .projets-icon{
+  opacity: 1;
 }
 
+.projets-card:hover .projets-description{
+  opacity: 1;
+}
+
+.projets-description{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1;
+  opacity: 0;
+  line-height: 1.4;
+  font-size: 1.3em;
+}
 
 .projets-icon{
-  display: flex;
-  align-items: center;
   display: flex; 
   align-items: center;
   justify-content: space-between;
@@ -333,6 +351,7 @@ nav .menu-btn,
   bottom: 5px;
   right: 5px;
   z-index: 1;
+  opacity: 0;
 }
 
 .projets-icon-link{
@@ -391,24 +410,6 @@ nav .menu-btn,
   .pr-heading .details{
       font-size: 1rem;
   }
-.about-image img{
-  height:400px;
-  }
-  #features{
-  height:auto;
-  }
-  .a-container{
-  flex-wrap: wrap;
-}
-  .a-box{
-  flex-grow: 1;
-}
-  .a-b-img img{
-  object-fit:contain;
-  }
-  
-  
-
 }
 
 @media(max-width:970px){
