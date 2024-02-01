@@ -2,8 +2,6 @@ import React from 'react';
 
 const LogoLoader = () => {
 
-  const loading="Chargement...";
-
   return (
     <div>
       {/* <div className='loader-txt'>

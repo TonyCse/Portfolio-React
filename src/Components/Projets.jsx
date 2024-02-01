@@ -5,14 +5,12 @@ import piiquante from '../images/piiquante.png'
 import kanap from '../images/kanap.png'
 import booki from '../images/booki.png'
 import ohmyfood from '../images/ohmyfood.png'
-import iconyoutube from '../images/youtube-projet.png'
-import icongithub from '../images/github-projet.png'
-import iconlink from '../images/link-projet.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faYoutube } from '@fortawesome/free-brands-svg-icons';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { faUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 
 function Projets() {
       return (
@@ -31,13 +29,13 @@ function Projets() {
                                     </div>
                                     <div className='projets-icon'>
                                           <a href="https://pokedex-tony-cseresznyak.vercel.app/">
-                                                <img className='projets-icon-resize' src={iconlink} alt="iconlink" />
+                                                <FontAwesomeIcon className='icon' icon={faUpRightFromSquare} />
                                           </a>
                                           <a href="https://github.com/TonyCse/Pokedex">
-                                                <img className='projets-icon-link' src={icongithub} alt="icon-github" />
+                                                <FontAwesomeIcon className='icon' icon={faGithub} />
                                           </a>
                                           <a href="https://www.youtube.com/watch?v=WTIMYAG9bks">
-                                                <img className='projets-icon-link' src={iconyoutube} alt="iconyoutube" />
+                                                <FontAwesomeIcon className='icon' icon={faYoutube} />
                                           </a>
                                     </div>
                               </div>
@@ -53,10 +51,10 @@ function Projets() {
                                     </div>
                                     <div className='projets-icon'>
                                           <a href="https://github.com/TonyCse/Groupomania-P7">
-                                                <img className='projets-icon-link' src={icongithub} alt="icon-github" />
+                                                <FontAwesomeIcon className='icon' icon={faGithub} />
                                           </a>
                                           <a href="https://www.youtube.com/watch?v=kncL0AvyGTQ">
-                                                <img className='projets-icon-link' src={iconyoutube} alt="iconyoutube" />
+                                                <FontAwesomeIcon className='icon' icon={faYoutube} />
                                           </a>
                                     </div>
                               </div>
@@ -67,7 +65,7 @@ function Projets() {
                                     </div>
                                     <div className='projets-icon'>
                                           <a href="https://github.com/TonyCse/Piiquante">
-                                                <img className='projets-icon-link' src={icongithub} alt="icon-github" />
+                                                <FontAwesomeIcon className='icon' icon={faGithub} />
                                           </a>
                                     </div>
                               </div>
@@ -78,7 +76,7 @@ function Projets() {
                                     </div>
                                     <div className='projets-icon'>
                                           <a href="https://github.com/TonyCse/Kanap">
-                                                <img className='projets-icon-link' src={icongithub} alt="icon-github" />
+                                                <FontAwesomeIcon className='icon' icon={faGithub} />
                                           </a>
                                     </div>
                               </div>
@@ -88,11 +86,11 @@ function Projets() {
                                          OhMyFood est un site de réservation de restaurant avec affichage du menu de chaque restaurant et des animations CSS.
                                     </div>
                                     <div className='projets-icon'>
-                                          <a href="https://github.com/TonyCse/OhMyFood">
-                                                <img className='projets-icon-link' src={icongithub} alt="icon-github" />
-                                          </a>
                                           <a href="https://ohmyfood-tony.vercel.app/">
-                                                <img className='projets-icon-resize' src={iconlink} alt="iconlink" />
+                                                <FontAwesomeIcon className='icon' icon={faUpRightFromSquare} />
+                                          </a>
+                                          <a href="https://github.com/TonyCse/OhMyFood">
+                                                <FontAwesomeIcon className='icon' icon={faGithub} />
                                           </a>
                                     </div>
                               </div>
@@ -102,11 +100,11 @@ function Projets() {
                                           Booki est un site de réservation d'hôtels ou d'hébergements indépendants.
                                     </div>
                                     <div className='projets-icon'>
-                                          <a href="https://github.com/TonyCse/Projet-Booki">
-                                                <img className='projets-icon-link' src={icongithub} alt="icon-github" />
-                                          </a>
                                           <a href="https://projet-booki.vercel.app/">
-                                                <img className='projets-icon-resize' src={iconlink} alt="iconlink" />
+                                                <FontAwesomeIcon className='icon' icon={faUpRightFromSquare} />
+                                          </a>
+                                          <a href="https://github.com/TonyCse/Projet-Booki">
+                                                <FontAwesomeIcon className='icon' icon={faGithub} />
                                           </a>
                                     </div>
                               </div>
