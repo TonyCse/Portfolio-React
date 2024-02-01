@@ -348,7 +348,6 @@ nav .menu-btn,
 .experiences-card:hover {
   background-color: rgba(91, 177, 171, 0.11);
   border-radius: 5px;
-  width: 98%;
 }
 
 .experiences-date{
@@ -372,9 +371,10 @@ nav .menu-btn,
 }
 
 .experiences-body-text{
+  margin-top: 15px;
   margin-bottom: 25px;
   font: 1em "Anonymous Pro";
-  line-height: 1.4;
+  line-height: 1.1;
 }
 
 .experiences-body-footer{
@@ -852,11 +852,11 @@ nav .menu-btn,
         }
         .experiences-date {
           width: 100%;
-          margin-left: 10px;
-          margin-bottom: 10px;
+          margin-bottom: 20px;
         }      
         .experiences-body{
           width: 100%;
+          margin-left: 0px;
         }
 
         .experiences-body-title {
@@ -883,6 +883,10 @@ nav .menu-btn,
           margin: 10px;
           top: 0px;
           left: 0px;
+        }
+
+        .projets-description:hover{
+          background-color: rgb(91 177 171 / 0%);
         }
 
         .projets-icon .icon{
