@@ -352,7 +352,7 @@ nav .menu-btn,
 
 .experiences-date{
   color: rgb(168, 168, 168);
-  width: 10%;
+  width: 15%;
 }
 
 .experiences-body{
@@ -771,6 +771,35 @@ nav .menu-btn,
         align-items: center;
         margin: 50px;
       }
+
+      .experiences-card{
+        display: flex;
+        flex-direction: column;
+        padding: 16px;
+      }
+      .experiences-date {
+        width: 100%;
+        margin-bottom: 20px;
+      }      
+      .experiences-body{
+        width: 100%;
+        margin-left: 0px;
+      }
+
+      .experiences-body-title {
+        font: 1.1em "Anonymous Pro";
+        font-weight: 900;
+      }
+      .experiences-body-footer{
+        display: flex;
+        
+      }
+
+      .experiences-body-footer span {
+        margin: 20px;
+        text-align: center;
+      }
+
       .projets-main{
         display: grid;
         justify-content: center;
