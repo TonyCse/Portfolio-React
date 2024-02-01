@@ -1,14 +1,12 @@
 import React from 'react'
-import Navbar from './Navbar'
 
 function Experiences() {
       return (
             <div id='experiences'>
-                  <Navbar/>
-                  <div className='title'>
+                  {/* <div className='title'>
                         <h2> 02. Mon parcours</h2>
                         <div className='line'></div>
-                  </div>
+                  </div> */}
                   <div className='experiences-main'>
                         <h2>Experiences professionnelles</h2>
                         <div className='experiences-card'>
@@ -23,11 +21,12 @@ function Experiences() {
                                           Développer et optimiser l'ergonomie et la navigation de 3 applications web pour une start-up spécialisée dans l'innovation immobilière 3D.
                                     </div>
                                     <div className='experiences-body-footer'>
-                                          <span>HTML/CSS/SCSS</span>
-                                          <span>JavaScript</span>
-                                          <span>Nodes.js</span>
-                                          <span>Vue.js</span>
-                                          <span>Vuetify</span>
+                                          <ul>
+                                                <li>JavaScript</li>
+                                                <li>Node.js</li>
+                                                <li>Vue.js</li>
+                                                <li>Vuetify</li>
+                                          </ul>
                                     </div>
                               </div>
                         </div>
@@ -57,11 +56,12 @@ function Experiences() {
                                           Cloud Campus https://cloud-campus.fr/
                                     </div>
                                     <div className='experiences-body-footer'>
-                                          <span>Figma</span>
-                                          <span>React.js</span>
-                                          <span>PHP</span>
-                                          <span>Laravel</span>
-                                          <span>Docker</span>
+                                          <ul>
+                                                <li>React</li>
+                                                <li>PHP</li>
+                                                <li>Laravel</li>
+                                                <li>Docker</li>
+                                          </ul>
                                     </div>
                               </div>
                         </div>
@@ -77,11 +77,14 @@ function Experiences() {
                                           Transformer une maquette en page web HTML/CSS <br/> Analyser et optimiser le SEO d'une application web <br/>Créer un site d'e-commerce en JavaScrip Vanilla <br/> Construire une API sécurisée via JWT <br/>Créer un réseau social d'entreprise avec Express.js et Vue.js
                                     </div>
                                     <div className='experiences-body-footer'>
-                                          <span>HTML/CSS/SCSS</span>
-                                          <span>JavaScript</span>
-                                          <span>Nodes.js</span>
-                                          <span>Vue.js</span>
-                                          <span>Vuetify</span>
+                                          <ul>
+                                                <li>HTML/CSS</li>
+                                                <li>JavaScript</li>
+                                                <li>Node.js</li>
+                                                <li>Vue.js</li>
+                                                <li>MongoDB</li>
+                                                <li>MySQL</li>
+                                          </ul>
                                     </div>
                               </div>
                         </div>

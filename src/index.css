@@ -16,6 +16,11 @@ a{
   color: white;
 }
 
+.icon{
+  height: 40px;
+  margin: 10px;
+}
+
 @property --rotate {
   syntax: "<angle>";
   initial-value: 132deg;
@@ -27,29 +32,110 @@ a{
   --photo-width: calc(var(--photo-height) / 1.5);
 }
 
-.chargement{
+:root {
+  --loader-size: 70px;
+  --planet-size: 10px;
+  --moon-loader-size: 34px;
+  --moon-size: 5px;
+  --sun-size: 21px;
+  --color: rgb(91, 177, 171);
+}
+
+
+.loader-txt{
   display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  position: fixed !important;
-  text-align: center;
-  top: 40%;
-  left: 45%;
+  top: 35%;
+  font: 2em 'Archivo Black' !important; 
+  left: 40%;
+  color: rgb(180, 5, 5);
 }
 
-.chargement img{
-  width: 240px;
+.loader-txt{
+  content: attr(data-text);
+  position: absolute;
+  overflow: hidden;
+  max-width: 15em;
+  white-space: nowrap;
+  color: #fff;
+  animation: loading 1.25s linear;
 }
 
-.chargement h2{
-  font: 4em 'Archivo Black' !important; 
-  margin: 0 0 30px 0;
-  color: white;
+@keyframes loading {
+  0% {
+      max-width: 0;
+  }
 }
 
-.logo {
+.loader {
+  position: absolute;
+  top: 50%;
+  margin-top: calc(var(--loader-size) / -2);
+  left: 50%;
+  margin-left: calc(var(--loader-size) / -2);
+  width: var(--loader-size);
+  height: var(--loader-size);
+}
+
+.moon-loader {
+  position: absolute;
+  top: 50%;
+  margin-top: calc(var(--moon-loader-size) / -2);
+  left: 50%;
+  margin-left: calc(var(--moon-loader-size) / -2);
+  width: var(--moon-loader-size);
+  height: var(--moon-loader-size);
+}
+
+.loader-circle {
+  
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--color), 0.21);
+  animation: rotate 2.1s infinite linear;
+}
+
+.loader-circle > div {
+  position: absolute;
+  width: var(--planet-size);
+  height: var(--planet-size);
+  margin-left: calc(var(--planet-size) / 2);
+  border-radius: 50%;
+  background-color: var(--color);
+}
+
+.loader-circle > div.loader-moon-size {
+  width: var(--moon-size);
+  height: var(--moon-size);
+  margin-left: calc(var(--moon-size) / 2);
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+.loader-sun {
+  position: absolute;
+  left: 50%;
+  margin-left: calc(var(--sun-size) / 2 - 1px);
+  top: 50%;
+  margin-top: calc(var(--sun-size) / 2 - 1px);
+  width: var(--sun-size);
+  height: var(--sun-size);
+  background-color: var(--color);
+  border-radius: 50%;
+}
+
+
+.logo img{
   width: 90px;
+  margin: 20px;
 }
 
 .home{
@@ -60,6 +146,7 @@ a{
 }
 
 nav{
+  position: fixed;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -77,7 +164,7 @@ nav ul li a{
   margin: 10px;
   padding: 0px 22px;
   display: flex;
-  font-size: 1.3rem;
+  font-size: 0.9rem;
   text-transform: uppercase;
   font-weight: 500;
   color:#ffffff;
@@ -93,6 +180,7 @@ nav .menu-btn,
 .menu-icon{
   display:none;
 }
+
 .name{
   text-align: center;
 }
@@ -141,12 +229,16 @@ nav .menu-btn,
   display: flex;
   align-items: center;
 }
+#presentation{
+  padding: 1px 0px;
+}
 
 .about-main{
   display: flex;
   flex-direction: row !important;
   justify-content: space-around;
   align-items: center;
+  margin: 100px;
 }
 
 .about-main p {
@@ -227,11 +319,14 @@ nav .menu-btn,
   padding: 0px;
 }
 .about-text p{
+  margin-left: 80px;
   width: 80%;
-  font-size: 1.2rem;
-  color:#cecece;
+  color:white;
 }
 
+#experiences{
+  padding: 1px 0px;
+}
 
 .experiences-main {
   margin: 100px;
@@ -287,15 +382,36 @@ nav .menu-btn,
   flex-wrap: wrap;
 }
 
-.experiences-body-footer span{
-  margin: 10px;
-  font-weight: bolder;
-  border-radius: 15px;
-  padding: 3px 7px;
-  background-color: rgb(91, 177, 171);
-  color: black;
+.experiences-body-footer ul{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
 }
 
+.experiences-body-footer ul li{
+  margin-top: 0.5rem;
+  margin-right: 0.375rem;
+  --tw-text-opacity: 1;
+  color: rgb(94 234 212/var(--tw-text-opacity));
+  line-height: 1.25rem;
+  font-weight: 500;
+  font-size: .75rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#projets{
+  padding: 1px 0px;
+}
 
 .projets-main{
   margin: 40px;
@@ -310,11 +426,11 @@ nav .menu-btn,
 .projets-card{
   color: white;
   position: relative;
+  width: 80%;
 }
 
 .projets-img{
   width: 100%;
-  height: 300px;
 }
 
 .projets-card:hover .projets-img{
@@ -363,6 +479,37 @@ nav .menu-btn,
 .projets-icon-resize{
   margin: 10px;
   height: 42px;
+ }
+
+ .footer{
+  margin-top: 200px;
+  padding-top: 10px;
+  background-color: rgb(91, 177, 171);
+  color: white;
+ }
+
+.email-footer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.email-footer h2{
+  margin: 0px;
+  display: flex;
+  align-items: center;
+}
+ .icon-footer{
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ }
+
+ .copyright-footer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
  }
 
 @media(max-width:1190px){
@@ -442,6 +589,11 @@ nav .menu-btn,
       
       margin-top: 0px;
 }
+
+.about-photo img {
+  height: 300px;
+  width: 300px;
+}
 .about-text{
       width: 90%;
 }
@@ -450,6 +602,7 @@ nav .menu-btn,
   }
   .about-text p{
       width: 100%;
+      margin: 0px;
   }
   #features{
       margin-bottom: 100px;
@@ -479,7 +632,7 @@ nav .menu-btn,
     width: 90%;
   }
   .about-main{
-    margin-top: 20px;
+    margin: 50px, 0px 0px 0px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -490,7 +643,18 @@ nav .menu-btn,
     justify-content: center;
     align-items: center;
     justify-items: center;
-    grid-template-columns:  1fr
+    grid-template-columns:  repeat(1, 1fr)
+  }
+}
+
+@media(max-width:500px){
+  .projets-main{
+    grid-template-columns:  repeat(2, 1fr)
+  }
+
+  .projets-card{
+    width: 300px;
+    margin-bottom: 30px;
   }
 }
 
@@ -500,7 +664,6 @@ nav .menu-btn,
       nav{
           justify-content: space-between;
           height: 65px;
-          padding: 5px 7px;
       }
       nav ul li a:hover{
         cursor: pointer;
@@ -509,6 +672,7 @@ nav .menu-btn,
 
       .logo img{
           width:70px;
+          padding: 10px;
       }
       .header-btns{
           margin: 0;
@@ -536,13 +700,13 @@ nav .menu-btn,
           justify-content: center;
           align-items: center;
           margin:0px;
-          padding: 25px;
+          padding: 25px 0px;
           border:1px solid rgba(167, 33, 33, 0.03);
       }
       nav .menu-icon{
           cursor:pointer;
           float:right;
-          padding:28px 20px;
+          padding:28px 28px;
           position:relative;
           user-select: none;
       }
@@ -593,6 +757,7 @@ nav .menu-btn,
         display: flex;
         flex-direction: column;
         align-items: center;
+        margin: 50px;
       }
       .projets-main{
         display: grid;
@@ -603,7 +768,7 @@ nav .menu-btn,
       }
 
       .projets-card{
-        width: 100%;
+        width: 500px;
         margin-bottom: 30px;
       }
     }
@@ -621,9 +786,7 @@ nav .menu-btn,
           cursor: pointer;
           color:rgb(91, 177, 171);
         }
-        .name{
-          margin-top: 200px;
-        }
+
         .name p{
           width: 90%;
         }
@@ -638,14 +801,14 @@ nav .menu-btn,
         }
 
         .about-main{
-          margin-top: 20px;
+          margin:0px;
           display: flex;
           flex-direction: column;
           align-items: center;
         }
 
         .about-main p{
-          padding: 10px;
+          margin: 100px 0px 0px 0px;
           width: 100%;
           font: 1em "Anonymous Pro";
           font-weight: 900;
@@ -661,20 +824,32 @@ nav .menu-btn,
           margin: 20px;
         }
 
+        .experiences-card{
+          display: flex;
+          flex-direction: column;
+          padding: 16px;
+        }
+        .experiences-date {
+          width: 100%;
+          margin-left: 10px;
+          margin-bottom: 10px;
+        }      
         .experiences-body{
           width: 100%;
         }
 
+        .experiences-body-title {
+          font: 1.1em "Anonymous Pro";
+          font-weight: 900;
+        }
         .experiences-body-footer{
           display: flex;
-          flex-direction: column;
           
         }
 
         .experiences-body-footer span {
-          margin-bottom: 20px;
+          margin: 20px;
           text-align: center;
-          width: 130px;
         }
 
         .projets-card{
@@ -706,6 +881,12 @@ nav .menu-btn,
           gap: 20px;
         }
         .projets-img{
-          height: 300px;
+          height: 200px;
+        }
+        .email-footer h2{
+          font-size: 1.2rem;
+        }
+        .copyright-footer{
+          padding: 10px;
         }
       }

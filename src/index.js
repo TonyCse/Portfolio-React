@@ -1,36 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import {createBrowserRouter,RouterProvider} from "react-router-dom";
-import Header from './Components/Header';
-import Presentation from './Components/Presentation';
-import Experiences from './Components/Experiences';
-import Projets from './Components/Projets';
+import App from './App';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 
+library.add(fas);
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Header/>
-  },
-  {
-    path: "AboutMe",
-    element: <Presentation/>,
-  },
-  {
-    path: "Experiences",
-    element: <Experiences/>,
-  },
-  {
-    path: "Projets",
-    element: <Projets/>,
-  },
-]);
-
+document.addEventListener("DOMContentLoaded", function() {
+  AOS.init();
+});
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-     <RouterProvider router={router} />
+    <App />
   </React.StrictMode>
 );
