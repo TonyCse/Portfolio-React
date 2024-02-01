@@ -134,7 +134,7 @@ function Projets() {
                               </div>
                               <div className='copyright-footer'>
                                     <p>Ce site a été développé avec <strong>Visual Studio Code</strong>, utilisant le framework <strong>React</strong>. Déployé avec <strong>Vercel</strong>.</p>
-                                    <p>&copy; 2024 Tony Cseresznyak Portfolio. Tous droits réservés.</p>
+                                    <p>&copy; 2024 Tony Cseresznyak Portfolio.</p>
                               </div>
                         </div>
                   </div>

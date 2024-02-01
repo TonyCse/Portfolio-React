@@ -325,7 +325,7 @@ nav .menu-btn,
 }
 
 #experiences{
-  padding: 1px 0px;
+  padding: 48px 0px;
 }
 
 .experiences-main {
@@ -410,7 +410,7 @@ nav .menu-btn,
 }
 
 #projets{
-  padding: 1px 0px;
+  padding: 91px 0px 0px 0px;
 }
 
 .projets-main{
@@ -791,6 +791,14 @@ nav .menu-btn,
           width: 90%;
         }
 
+        .details{
+          margin-top: 40px !important;
+        }
+
+        .home-link{
+          margin-top: 40px;
+        }
+
         .about-title{
           margin-left: 25px;
           width: 90%;
@@ -813,6 +821,7 @@ nav .menu-btn,
           font: 1em "Anonymous Pro";
           font-weight: 900;
           line-height: 1.4;
+          padding: 0;
         }
 
         .about-photo img{
@@ -883,6 +892,11 @@ nav .menu-btn,
         .projets-img{
           height: 200px;
         }
+
+        .footer{
+          margin-top: 50px;
+        }
+
         .email-footer h2{
           font-size: 1.2rem;
         }
