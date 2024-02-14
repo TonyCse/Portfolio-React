@@ -1,5 +1,5 @@
 import React from 'react'
-import photo from '../images/photoCV.jpg'
+import photo from '../images/photoCV.png'
 
 function Presentation() {
       return (
