@@ -7,7 +7,7 @@ const EJS_SERVICE  = process.env.REACT_APP_EMAILJS_SERVICE_ID
 const EJS_TEMPLATE = process.env.REACT_APP_EMAILJS_TEMPLATE_ID
 const EJS_KEY      = process.env.REACT_APP_EMAILJS_PUBLIC_KEY
 
-const TONY_EMAIL    = 'tony.cseresznyak@cloud-campus.fr'
+const TONY_EMAIL    = 'tonycseresznyak@hotmail.com'
 const TONY_LINKEDIN = 'https://www.linkedin.com/in/tony-cseresznyak'
 const TONY_GITHUB   = 'https://github.com/TonyCse'
 
