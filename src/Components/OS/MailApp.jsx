@@ -96,7 +96,7 @@ function ComposeModal({ onClose }) {
         EJS_SERVICE,
         EJS_TEMPLATE,
         { name, email: from, title: subj, message: body },
-        EJS_KEY,
+        { publicKey: EJS_KEY },
       )
       setStatus('sent')
       setTimeout(onClose, 2000)
