@@ -45,11 +45,13 @@ const DOCK_APPS = [
 ]
 
 const DEV_QUOTES = [
-  "Any fool can write code a computer understands.",
-  "First, solve the problem. Then, write the code.",
-  "Code is read more often than it is written.",
-  "Make it work, make it right, make it fast.",
-  "Simplicity is the soul of efficiency.",
+  "It works on my machine. 🤷",
+  "Git commit -m 'fix bug' — introduces 3 new bugs.",
+  "CSS : 2h pour centrer un div. 2min pour tout casser.",
+  "Stack Overflow is my co-pilot. 🚀",
+  "undefined is not a function. — JavaScript, probablement.",
+  "La prod ne ment jamais. Le dev, si.",
+  "Ça marchait hier. Je n'ai rien touché. 🙃",
 ]
 
 const fmt     = () => new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
