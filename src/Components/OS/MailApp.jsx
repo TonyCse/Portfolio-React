@@ -3,9 +3,9 @@ import emailjs from '@emailjs/browser'
 import './MailApp.css'
 import avatarContact from '../../images/avatarcontact.png'
 
-const EJS_SERVICE  = process.env.REACT_APP_EMAILJS_SERVICE_ID
-const EJS_TEMPLATE = process.env.REACT_APP_EMAILJS_TEMPLATE_ID
-const EJS_KEY      = process.env.REACT_APP_EMAILJS_PUBLIC_KEY
+const EJS_SERVICE  = 'service_eweyy9k'
+const EJS_TEMPLATE = 'template_3ya6ezx'
+const EJS_KEY      = 'uzZjO9OcyTLDgJoTA'
 
 const TONY_EMAIL    = 'tonycseresznyak@hotmail.com'
 const TONY_LINKEDIN = 'https://www.linkedin.com/in/tony-cseresznyak'
@@ -83,11 +83,6 @@ function ComposeModal({ onClose }) {
     if (!name || !from || !subj || !body) return
 
     if (!isConfigured) {
-      console.warn('[MailApp] EmailJS debug', {
-        SERVICE:  EJS_SERVICE  ? EJS_SERVICE.slice(0,8)+'…'  : 'UNDEFINED',
-        TEMPLATE: EJS_TEMPLATE ? EJS_TEMPLATE.slice(0,8)+'…' : 'UNDEFINED',
-        KEY:      EJS_KEY      ? EJS_KEY.slice(0,6)+'…'      : 'UNDEFINED',
-      })
       const mailto = `mailto:${TONY_EMAIL}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(`De : ${name} <${from}>\n\n${body}`)}`
       window.open(mailto)
       setStatus('sent')
