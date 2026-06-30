@@ -83,7 +83,11 @@ function ComposeModal({ onClose }) {
     if (!name || !from || !subj || !body) return
 
     if (!isConfigured) {
-      console.warn('[MailApp] EmailJS non configuré — variables manquantes dans le build')
+      console.warn('[MailApp] EmailJS debug', {
+        SERVICE:  EJS_SERVICE  ? EJS_SERVICE.slice(0,8)+'…'  : 'UNDEFINED',
+        TEMPLATE: EJS_TEMPLATE ? EJS_TEMPLATE.slice(0,8)+'…' : 'UNDEFINED',
+        KEY:      EJS_KEY      ? EJS_KEY.slice(0,6)+'…'      : 'UNDEFINED',
+      })
       const mailto = `mailto:${TONY_EMAIL}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(`De : ${name} <${from}>\n\n${body}`)}`
       window.open(mailto)
       setStatus('sent')
