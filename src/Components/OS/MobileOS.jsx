@@ -45,13 +45,15 @@ const DOCK_APPS = [
 ]
 
 const DEV_QUOTES = [
-  "It works on my machine. 🤷",
-  "Git commit -m 'fix bug' — introduces 3 new bugs.",
-  "CSS : 2h pour centrer un div. 2min pour tout casser.",
-  "Stack Overflow is my co-pilot. 🚀",
-  "undefined is not a function. — JavaScript, probablement.",
-  "La prod ne ment jamais. Le dev, si.",
-  "Ça marchait hier. Je n'ai rien touché. 🙃",
+  "> status: open to work ✅",
+  "> stack: React · Node · Laravel · MySQL",
+  "> last deploy: successful 🚀",
+  "> coffee.exe — process running ☕",
+  "> location: Paris, Île-de-France 📍",
+  "> side_project.ts — compiling...",
+  "> git push origin main — done ✓",
+  "> available for freelance & CDI",
+  "> bugs fixed today: 99 — 1 remaining 🐛",
 ]
 
 const fmt     = () => new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
@@ -78,7 +80,7 @@ function WidgetRow() {
         </div>
       </div>
       <div className="mob-widget mob-widget-quote">
-        <span className="mob-widget-quote-icon">💡</span>
+        <span className="mob-widget-quote-icon">{'>'}_</span>
         <p className="mob-widget-quote-text">{DEV_QUOTES[quoteIdx]}</p>
       </div>
     </div>
