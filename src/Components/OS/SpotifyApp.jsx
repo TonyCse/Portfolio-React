@@ -19,11 +19,17 @@ const GENRES = [
 ]
 
 async function fetchTracks(query, signal) {
+  const key = `sp_cache_${query}`
+  try {
+    const hit = sessionStorage.getItem(key)
+    if (hit) return JSON.parse(hit)
+  } catch {}
+
   const url = `/api/music?q=${encodeURIComponent(query)}`
   const res = await fetch(url, { signal })
   if (!res.ok) throw new Error(`HTTP ${res.status}`)
   const json = await res.json()
-  return (json.results || [])
+  const tracks = (json.results || [])
     .filter(t => t.previewUrl)
     .map(t => ({
       id:     t.trackId,
@@ -32,6 +38,8 @@ async function fetchTracks(query, signal) {
       url:    t.previewUrl,
       cover:  (t.artworkUrl100 || '').replace('100x100bb', '300x300bb'),
     }))
+  try { sessionStorage.setItem(key, JSON.stringify(tracks)) } catch {}
+  return tracks
 }
 
 const fmtTime = (s) => {
@@ -114,6 +122,10 @@ function SpotifyApp({ volume }) {
       const data = await fetchTracks(pl.query, controller.signal)
       setTracks(data)
       setTrackIdx(0)
+      if (audioRef.current && data[0]?.url) {
+        audioRef.current.src = data[0].url
+        audioRef.current.preload = 'auto'
+      }
     } catch (e) {
       if (e.name !== 'AbortError') setError(true)
     } finally {
@@ -129,7 +141,7 @@ function SpotifyApp({ volume }) {
     const audio = audioRef.current
     if (!audio || !src?.url) return
     stopRaf(); audio.pause()
-    audio.src = src.url
+    if (audio.src !== src.url) audio.src = src.url
     audio.volume = effectiveVol()
     setCurrentTime(0); setDuration(0); setTrackIdx(idx)
     audio.play()

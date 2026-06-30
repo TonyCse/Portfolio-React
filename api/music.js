@@ -7,7 +7,7 @@ module.exports = function handler(req, res) {
     return
   }
 
-  const url = `https://itunes.apple.com/search?term=${encodeURIComponent(q)}&media=music&entity=song&limit=12`
+  const url = `https://itunes.apple.com/search?term=${encodeURIComponent(q)}&media=music&entity=song&limit=6`
 
   https.get(url, (apiRes) => {
     let raw = ''
