@@ -619,6 +619,29 @@ div.mail-viewer-avatar {
 }
 .mail-error-retry:hover { background: rgba(255, 255, 255, 0.08); }
 
+.mail-field-err {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.72rem;
+  color: #f87171;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.mail-field-invalid {
+  border-bottom-color: rgba(248, 113, 113, 0.5) !important;
+}
+.mail-field-invalid input {
+  color: #fca5a5;
+}
+.mail-body-invalid .mail-compose-body {
+  border-color: rgba(248, 113, 113, 0.4);
+}
+.mail-body-invalid .mail-field-err {
+  display: block;
+  margin-left: 0;
+  margin-top: 4px;
+  padding: 0 2px;
+}
+
 /* ── Contact card (default viewer) ──────────────────────────────── */
 .mail-contact-card {
   flex: 1;

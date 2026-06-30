@@ -69,18 +69,44 @@ Aucune erreur détectée.`,
   sent: [],
 }
 
+const RE_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
+const RE_NAME  = /^[A-Za-zÀ-ÖØ-öø-ÿ' -]{2,50}$/
+
+function validate(name, from, subj, body) {
+  const errs = {}
+  if (!name.trim())           errs.name = 'Champ requis'
+  else if (!RE_NAME.test(name.trim())) errs.name = 'Prénom et nom (lettres uniquement)'
+  if (!from.trim())           errs.from = 'Champ requis'
+  else if (!RE_EMAIL.test(from.trim())) errs.from = 'Adresse email invalide'
+  if (!subj.trim())           errs.subj = 'Champ requis'
+  else if (subj.trim().length < 3)     errs.subj = 'Objet trop court (3 caractères min)'
+  if (!body.trim())           errs.body = 'Champ requis'
+  else if (body.trim().length < 10)    errs.body = 'Message trop court (10 caractères min)'
+  return errs
+}
+
 /* ── Compose modal with real EmailJS send ─────────────────────────── */
 function ComposeModal({ onClose }) {
   const [name,   setName]   = useState('')
   const [from,   setFrom]   = useState('')
   const [subj,   setSubj]   = useState('')
   const [body,   setBody]   = useState('')
-  const [status, setStatus] = useState('idle') // idle | sending | sent | error
+  const [touched,setTouched]= useState({})
+  const [status, setStatus] = useState('idle')
 
   const isConfigured = !!(EJS_SERVICE && EJS_TEMPLATE)
 
+  const blur = (field) => setTouched(t => ({ ...t, [field]: true }))
+
+  const currentErrors = validate(name, from, subj, body)
+  const fieldErr = (f) => touched[f] && currentErrors[f]
+    ? <span className="mail-field-err">{currentErrors[f]}</span>
+    : null
+
   const handleSend = async () => {
-    if (!name || !from || !subj || !body) return
+    setTouched({ name: true, from: true, subj: true, body: true })
+    const errs = validate(name, from, subj, body)
+    if (Object.keys(errs).length) return
 
     if (!isConfigured) {
       const mailto = `mailto:${TONY_EMAIL}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(`De : ${name} <${from}>\n\n${body}`)}`
@@ -104,7 +130,8 @@ function ComposeModal({ onClose }) {
     }
   }
 
-  const busy = status === 'sending'
+  const busy    = status === 'sending'
+  const canSend = !busy && Object.keys(validate(name, from, subj, body)).length === 0
 
   return (
     <div className="mail-compose-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
@@ -136,30 +163,61 @@ function ComposeModal({ onClose }) {
               <span className="mail-compose-to-label">À :</span>
               <span className="mail-compose-to-val">{TONY_EMAIL}</span>
             </div>
-            <div className="mail-compose-field">
+
+            <div className={`mail-compose-field${fieldErr('name') ? ' mail-field-invalid' : ''}`}>
               <label>Votre nom :</label>
-              <input value={name} onChange={e => setName(e.target.value)} placeholder="Prénom Nom" disabled={busy} />
+              <input
+                value={name}
+                onChange={e => setName(e.target.value)}
+                onBlur={() => blur('name')}
+                placeholder="Prénom Nom"
+                disabled={busy}
+              />
+              {fieldErr('name')}
             </div>
-            <div className="mail-compose-field">
+
+            <div className={`mail-compose-field${fieldErr('from') ? ' mail-field-invalid' : ''}`}>
               <label>Votre email :</label>
-              <input type="email" value={from} onChange={e => setFrom(e.target.value)} placeholder="vous@example.com" disabled={busy} />
+              <input
+                type="email"
+                value={from}
+                onChange={e => setFrom(e.target.value)}
+                onBlur={() => blur('from')}
+                placeholder="vous@example.com"
+                disabled={busy}
+              />
+              {fieldErr('from')}
             </div>
-            <div className="mail-compose-field">
+
+            <div className={`mail-compose-field${fieldErr('subj') ? ' mail-field-invalid' : ''}`}>
               <label>Objet :</label>
-              <input value={subj} onChange={e => setSubj(e.target.value)} placeholder="Objet" disabled={busy} />
+              <input
+                value={subj}
+                onChange={e => setSubj(e.target.value)}
+                onBlur={() => blur('subj')}
+                placeholder="Objet du message"
+                disabled={busy}
+              />
+              {fieldErr('subj')}
             </div>
-            <textarea
-              className="mail-compose-body"
-              value={body}
-              onChange={e => setBody(e.target.value)}
-              placeholder="Votre message…"
-              disabled={busy}
-            />
+
+            <div className={fieldErr('body') ? 'mail-body-invalid' : ''}>
+              <textarea
+                className="mail-compose-body"
+                value={body}
+                onChange={e => setBody(e.target.value)}
+                onBlur={() => blur('body')}
+                placeholder="Votre message…"
+                disabled={busy}
+              />
+              {fieldErr('body')}
+            </div>
+
             <div className="mail-compose-actions">
               <button
                 className={`mail-compose-send${busy ? ' mail-compose-sending' : ''}`}
                 onClick={handleSend}
-                disabled={busy || !name || !from || !subj || !body}
+                disabled={!canSend}
               >
                 {busy ? '⏳ Envoi…' : '📤 Envoyer'}
               </button>
