@@ -1,19 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-     <meta name="description" content="Tony Cseresznyak, développeur Full Stack passionné par le web et les technologies modernes. Découvrez mes projets et compétences.">
-    <meta name="keywords" content="développeur web, full stack, React, Node.js, MongoDB, portfolio">
-     <meta name="robots" content="index, follow">
-    <meta name="theme-color" content="#000000" />
+
+    <!-- SEO -->
+    <title>Tony Cseresznyak — Développeur Full Stack</title>
+    <meta name="description" content="Portfolio de Tony Cseresznyak, développeur web full stack basé à Paris. Bac+4 alternance terminée. Spécialisé React, Node.js, Laravel, Docker. Disponible pour de nouvelles opportunités." />
+    <meta name="keywords" content="développeur web full stack, React, Node.js, Laravel, PHP, Docker, Paris, portfolio, Tony Cseresznyak" />
+    <meta name="author" content="Tony Cseresznyak" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:title"       content="Tony Cseresznyak — Développeur Full Stack" />
+    <meta property="og:description" content="Développeur web full stack basé à Paris. React, Node.js, Laravel, Docker. Bac+4 terminé — disponible." />
+    <meta property="og:locale"      content="fr_FR" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card"        content="summary" />
+    <meta name="twitter:title"       content="Tony Cseresznyak — Développeur Full Stack" />
+    <meta name="twitter:description" content="Développeur web full stack à Paris. React · Node.js · Laravel." />
+
+    <!-- Preconnect pour les polices -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+
+    <!-- Theme & icons -->
+    <meta name="theme-color" content="#06060f" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/apple-touch-icon.png" />
-    <!-- <link rel="manifest" href="%PUBLIC_URL%/manifest.json" /> -->
-    <title>Tony CSERESZNYAK</title>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Tony Cseresznyak",
+      "jobTitle": "Développeur Full Stack",
+      "url": "https://tonycseresznyak.vercel.app",
+      "sameAs": [
+        "https://github.com/TonyCse",
+        "https://www.linkedin.com/in/tony-cseresznyak/"
+      ],
+      "knowsAbout": ["React", "Node.js", "Laravel", "PHP", "Docker", "Vue.js"],
+      "address": { "@type": "PostalAddress", "addressLocality": "Paris", "addressCountry": "FR" }
+    }
+    </script>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <noscript>Vous devez activer JavaScript pour utiliser ce site.</noscript>
     <div id="root"></div>
   </body>
 </html>

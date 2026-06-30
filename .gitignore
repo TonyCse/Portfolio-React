@@ -13,7 +13,11 @@
 
 # misc
 .DS_Store
+.claude
 .env.local
+
+# Audio files (too large for GitHub)
+src/music/*.mp3
 .env.development.local
 .env.test.local
 .env.production.local

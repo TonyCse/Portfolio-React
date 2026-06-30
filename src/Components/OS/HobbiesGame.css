@@ -1,0 +1,1443 @@
+/* ═══════════════════════════════════════════════════════════════════
+   HobbiesGame.css — Pokémon overworld style
+   ═══════════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* ── Root layout ─────────────────────────────────────────────────── */
+.hg-root {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #1a1a2e;
+  position: relative;
+  transition: filter 0.1s;
+  image-rendering: pixelated;
+}
+
+.hg-root.hg-hit-flash {
+  animation: hg-hit-anim 0.5s ease-out;
+}
+@keyframes hg-hit-anim {
+  0%, 100% { filter: none; }
+  20% { filter: brightness(2.5) saturate(0) sepia(1) hue-rotate(-10deg); }
+}
+
+/* ── MAP (game viewport) ─────────────────────────────────────────── */
+.hg-map {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  /* Pokemon-style overworld grass */
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px, transparent 31px,
+      rgba(0, 0, 0, 0.06) 31px, rgba(0, 0, 0, 0.06) 32px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px, transparent 31px,
+      rgba(0, 0, 0, 0.06) 31px, rgba(0, 0, 0, 0.06) 32px
+    ),
+    radial-gradient(ellipse 90% 80% at 50% 40%, #78c850 0%, #60b040 30%, #50a030 60%, #3a8020 100%);
+}
+
+/* ── WORLD (scrolling container) ─────────────────────────────────── */
+.hg-world {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 150%;
+  height: 120%;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+/* ── SVG Paths ───────────────────────────────────────────────────── */
+.hg-paths {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ── Decorations ─────────────────────────────────────────────────── */
+.hg-deco {
+  position: absolute;
+  font-size: 22px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  filter: drop-shadow(0 2px 0 rgba(0,0,0,0.4));
+  z-index: 2;
+  image-rendering: pixelated;
+}
+
+/* ── Zone wrapper ────────────────────────────────────────────────── */
+.hg-zone {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  z-index: 10;
+  cursor: default;
+}
+
+/* ── House structure (pixel art style) ──────────────────────────── */
+.hg-zone-house {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.15s steps(3);
+}
+
+.hg-zone.hg-zone-near .hg-zone-house {
+  transform: translateY(-2px);
+}
+
+/* Chimney */
+.hg-zone-chimney {
+  position: absolute;
+  top: -2px;
+  right: 12px;
+  width: 8px;
+  height: 12px;
+  background: var(--zc, #888);
+  z-index: 4;
+}
+
+/* Smoke */
+.hg-zone-smoke {
+  position: absolute;
+  top: -12px;
+  left: -2px;
+  width: 12px;
+  height: 12px;
+}
+.hg-zone-smoke::before,
+.hg-zone-smoke::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(200, 200, 200, 0.5);
+  animation: hg-smoke 2.4s ease-out infinite;
+}
+.hg-zone-smoke::after {
+  animation-delay: 1.2s;
+  width: 8px; height: 8px;
+}
+@keyframes hg-smoke {
+  0%   { transform: translateY(0) scale(1);   opacity: 0.5; }
+  60%  { transform: translateY(-12px) scale(1.4); opacity: 0.2; }
+  100% { transform: translateY(-20px) scale(1.8); opacity: 0; }
+}
+.hg-zone:not(.hg-zone-near) .hg-zone-smoke::before,
+.hg-zone:not(.hg-zone-near) .hg-zone-smoke::after {
+  animation-play-state: paused; opacity: 0;
+}
+.hg-zone.hg-zone-near .hg-zone-smoke::before,
+.hg-zone.hg-zone-near .hg-zone-smoke::after {
+  animation-play-state: running;
+}
+
+/* Roof — sharp pixel triangle */
+.hg-zone-roof {
+  width: 84px;
+  height: 22px;
+  background: var(--zc, #888);
+  clip-path: polygon(0 100%, 50% 0, 100% 100%);
+  filter: brightness(0.82);
+  position: relative;
+  z-index: 3;
+  transition: filter 0.15s;
+}
+.hg-zone.hg-zone-near .hg-zone-roof {
+  filter: brightness(1.2);
+  box-shadow: 0 0 0 2px var(--zc);
+}
+
+/* Façade — dark with colored pixel border */
+.hg-zone-facade {
+  width: 74px;
+  background: #1a1028;
+  border: 3px solid var(--zc, #888);
+  border-top: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 4px 0;
+  position: relative;
+  z-index: 3;
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.5);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.hg-zone.hg-zone-near .hg-zone-facade {
+  border-color: var(--zc);
+  box-shadow: 0 0 0 1px var(--zc), 4px 4px 0 rgba(0,0,0,0.5);
+}
+
+/* Windows */
+.hg-zone-winrow { display: flex; gap: 10px; margin-bottom: 4px; }
+.hg-zone-win {
+  width: 14px; height: 11px;
+  background: rgba(30, 180, 255, 0.08);
+  border: 2px solid color-mix(in srgb, var(--zc) 55%, transparent);
+}
+.hg-zone-win::before {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0; left: 50%;
+  width: 2px;
+  background: color-mix(in srgb, var(--zc) 35%, transparent);
+}
+.hg-zone.hg-zone-near .hg-zone-win {
+  background: rgba(255, 230, 80, 0.6);
+  border-color: rgba(255, 230, 80, 0.9);
+  box-shadow: 0 0 6px rgba(255, 230, 80, 0.5);
+}
+
+/* Icon */
+.hg-zone-icon {
+  font-size: 20px;
+  line-height: 1;
+  margin-bottom: 2px;
+  filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.8));
+  transition: filter 0.15s;
+}
+.hg-zone.hg-zone-near .hg-zone-icon {
+  filter: drop-shadow(0 0 6px var(--zc)) drop-shadow(2px 2px 0 rgba(0,0,0,0.8));
+}
+
+/* Door */
+.hg-zone-door {
+  width: 14px; height: 18px;
+  background: rgba(0,0,0,0.9);
+  border: 2px solid color-mix(in srgb, var(--zc) 50%, transparent);
+  border-bottom: none;
+  margin-top: 2px;
+}
+.hg-zone.hg-zone-near .hg-zone-door { border-color: var(--zc); }
+
+/* Ground patch */
+.hg-zone-facade::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: -4px; right: -4px;
+  height: 4px;
+  background: color-mix(in srgb, var(--zc) 20%, rgba(0,60,0,0.7));
+  z-index: -1;
+}
+
+/* ── Sign — pixel font ───────────────────────────────────────────── */
+.hg-zone-sign {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: var(--zc, #aaa);
+  background: #0a0818;
+  border: 2px solid color-mix(in srgb, var(--zc) 40%, transparent);
+  padding: 3px 6px;
+  max-width: 92px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.6);
+}
+.hg-zone.hg-zone-near .hg-zone-sign {
+  border-color: var(--zc);
+  color: #fff;
+}
+
+/* Visited dot */
+.hg-zone-dot {
+  width: 6px; height: 6px;
+  background: var(--zc, #aaa);
+  box-shadow: 1px 1px 0 rgba(0,0,0,0.6);
+}
+
+/* !! Exclaim — Pokémon style ─────────────────────────────────────── */
+.hg-zone-exclaim {
+  position: absolute;
+  top: -42px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px; height: 20px;
+  background: #e83030;
+  color: #fff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: hg-exclaim 0.5s steps(2) infinite alternate;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.7);
+  z-index: 20;
+  border: 2px solid #fff;
+}
+@keyframes hg-exclaim {
+  from { transform: translateX(-50%) translateY(0); }
+  to   { transform: translateX(-50%) translateY(-4px); }
+}
+
+/* ── Player ──────────────────────────────────────────────────────── */
+.hg-player {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  pointer-events: none;
+  will-change: left, top;
+}
+
+.hg-player-name {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: #fff;
+  background: #1a0a2e;
+  padding: 2px 5px;
+  white-space: nowrap;
+  border: 2px solid #a855f7;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.8);
+  text-shadow: none;
+  margin-bottom: 2px;
+}
+
+.hg-player-sprite {
+  font-size: 26px;
+  line-height: 1;
+  filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.9)) drop-shadow(0 0 8px rgba(164,118,255,0.6));
+  image-rendering: pixelated;
+}
+
+/* Walking animation — pixel steps */
+.hg-player[data-moving="1"] .hg-player-sprite {
+  animation: hg-walk 0.3s steps(2) infinite;
+}
+@keyframes hg-walk {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-3px); }
+  100% { transform: translateY(0); }
+}
+
+.hg-player[data-dir="a"] .hg-player-sprite { transform: scaleX(-1); }
+.hg-player[data-dir="a"][data-moving="1"] .hg-player-sprite {
+  animation: hg-walk-l 0.3s steps(2) infinite;
+}
+@keyframes hg-walk-l {
+  0%   { transform: scaleX(-1) translateY(0); }
+  50%  { transform: scaleX(-1) translateY(-3px); }
+  100% { transform: scaleX(-1) translateY(0); }
+}
+
+/* Sprint glow */
+.hg-player[data-sprint="1"] .hg-player-sprite {
+  filter: drop-shadow(0 0 12px rgba(164,118,255,1)) drop-shadow(2px 2px 0 rgba(0,0,0,0.9));
+}
+
+.hg-player-shadow {
+  width: 22px; height: 6px;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.5) 0%, transparent 70%);
+  border-radius: 50%;
+  margin-top: -3px;
+}
+
+/* ── Dust particles ──────────────────────────────────────────────── */
+.hg-dust {
+  position: absolute;
+  width: 4px; height: 4px;
+  background: #c8a860;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 5;
+  animation: hg-dust-out 0.4s steps(4) forwards;
+}
+@keyframes hg-dust-out {
+  0%   { opacity: 1; transform: translate(-50%, -50%); }
+  100% { opacity: 0; transform: translate(-50%, calc(-50% - 10px)); }
+}
+
+/* ── Collectibles ────────────────────────────────────────────────── */
+.hg-collectible {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-size: 18px;
+  z-index: 8;
+  pointer-events: none;
+  animation: hg-float 1.6s steps(4) infinite;
+  filter: drop-shadow(0 0 6px rgba(255, 240, 100, 0.9));
+}
+@keyframes hg-float {
+  0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+  50%       { transform: translate(-50%, -50%) translateY(-6px); }
+}
+
+.hg-collect-flash {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-size: 22px;
+  z-index: 25;
+  pointer-events: none;
+  animation: hg-collect-pop 0.6s steps(4) forwards;
+}
+@keyframes hg-collect-pop {
+  0%   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  60%  { opacity: 1; transform: translate(-50%, -80%) scale(1.5); }
+  100% { opacity: 0; transform: translate(-50%, -120%) scale(1); }
+}
+
+/* ── NPC ─────────────────────────────────────────────────────────── */
+.hg-npc {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  z-index: 18;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  pointer-events: none;
+  will-change: left, top;
+}
+
+.hg-npc-name {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: #ffd070;
+  background: #0a0818;
+  padding: 2px 5px;
+  white-space: nowrap;
+  border: 2px solid rgba(255, 200, 50, 0.5);
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.7);
+  margin-bottom: 2px;
+}
+
+.hg-npc-sprite {
+  font-size: 24px;
+  line-height: 1;
+  filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.8));
+}
+
+.hg-npc[data-dir="a"] .hg-npc-sprite { transform: scaleX(-1); }
+
+/* Speech bubble — Pokémon NPC style */
+.hg-npc-bubble {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #f8f5e4;
+  border: 3px solid #1a1a1a;
+  padding: 5px 8px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: #1a1a1a;
+  white-space: nowrap;
+  z-index: 35;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.6);
+  animation: hg-bubble-in 0.15s steps(2);
+}
+.hg-npc-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 12px;
+  width: 6px; height: 6px;
+  background: #1a1a1a;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+.hg-npc-bubble::before {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 14px;
+  width: 4px; height: 4px;
+  background: #f8f5e4;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+  z-index: 1;
+}
+@keyframes hg-bubble-in {
+  from { opacity: 0; transform: translateX(-50%) scale(0.8); }
+  to   { opacity: 1; transform: translateX(-50%) scale(1); }
+}
+
+/* ── [E] prompt — Pokémon A button style ─────────────────────────── */
+.hg-e-prompt {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: #fff;
+  background: #c8302a;
+  border: 2px solid #fff;
+  padding: 3px 8px;
+  white-space: nowrap;
+  z-index: 25;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.7);
+  animation: hg-eprompt 0.8s steps(2) infinite alternate;
+}
+@keyframes hg-eprompt {
+  from { transform: translateX(-50%) translateY(0); }
+  to   { transform: translateX(-50%) translateY(-3px); }
+}
+
+/* ── HUD — top left: Pokémon status card ─────────────────────────── */
+.hg-hud-tl {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 30;
+  pointer-events: none;
+}
+
+.hg-status-card {
+  background: #1a0a2e;
+  border: 3px solid #fff;
+  padding: 6px 10px 7px;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.7);
+  min-width: 130px;
+}
+.hg-status-card::before {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border: 1px solid rgba(255,255,255,0.15);
+  pointer-events: none;
+}
+
+.hg-sc-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+
+.hg-sc-name {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: #fff;
+}
+
+.hg-sc-lv {
+  font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+  font-weight: normal;
+}
+
+/* ── HUD — top right: zone/item counters ─────────────────────────── */
+.hg-hud-tr {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 30;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.hg-pk-badge {
+  font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+  color: #fff;
+  background: #1a0a2e;
+  border: 2px solid rgba(255,255,255,0.7);
+  padding: 4px 8px;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.hg-pk-n {
+  color: #ffd700;
+  font-weight: normal;
+}
+
+/* ── Footprints ──────────────────────────────────────────────────────── */
+@keyframes hg-fp-fade { 0% { opacity: 0.45; transform: translate(-50%,-50%) scale(1); } 100% { opacity: 0; transform: translate(-50%,-50%) scale(0.4); } }
+.hg-footprint {
+  position: absolute;
+  width: 8px; height: 5px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.28);
+  pointer-events: none;
+  transform: translate(-50%,-50%);
+  animation: hg-fp-fade 1.4s ease-out forwards;
+}
+
+/* ── Boss monster (💀) override ─────────────────────────────────────── */
+.hg-monster[data-type="boss"] .hg-monster-sprite { filter: drop-shadow(0 0 8px #f43f5e) drop-shadow(0 0 18px rgba(244,63,94,0.5)); }
+.hg-monster[data-type="boss"] { transform: translate(-50%,-100%) scale(1.4) !important; animation: hg-mon-hover 1.4s ease-in-out infinite !important; }
+
+/* ── Minimap ─────────────────────────────────────────────────────── */
+.hg-minimap {
+  border: 2px solid rgba(255,255,255,0.5);
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.6), 0 0 8px rgba(168,85,247,0.25);
+  image-rendering: pixelated;
+  display: block;
+  opacity: 0.9;
+}
+
+/* ── Quest badge ─────────────────────────────────────────────────── */
+.hg-quest-badge { border-color: rgba(251,191,36,0.8) !important; color: #fbbf24 !important; }
+@keyframes hg-quest-ready-pulse {
+  0%,100% { box-shadow: 2px 2px 0 rgba(0,0,0,0.6); }
+  50%      { box-shadow: 2px 2px 0 rgba(0,0,0,0.6), 0 0 10px rgba(251,191,36,0.8); }
+}
+.hg-quest-ready { animation: hg-quest-ready-pulse 1s ease-in-out infinite; }
+
+/* ── XP Bar — Pokémon EXP/HP style ──────────────────────────────── */
+.hg-xp-bar {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.hg-xp-label {
+  font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+  color: rgb(255, 255, 255);
+  width: 22px;
+  flex-shrink: 0;
+}
+
+.hg-xp-track {
+  width: 70px;
+  height: 6px;
+  background: #0a0818;
+  border: 2px solid rgba(255,255,255,0.3);
+  overflow: hidden;
+}
+
+.hg-xp-fill {
+  height: 100%;
+  transition: width 0.4s steps(8);
+}
+
+.hg-xp-val {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: rgb(255, 255, 255);
+  min-width: 18px;
+  text-align: right;
+}
+
+/* ── Bug enemy ───────────────────────────────────────────────────── */
+.hg-bug {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  z-index: 16;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  pointer-events: none;
+  will-change: left, top;
+}
+
+.hg-bug-sprite {
+  font-size: 20px;
+  line-height: 1;
+  filter: drop-shadow(2px 2px 0 rgba(180,30,30,0.8));
+  transition: filter 0.2s;
+}
+
+.hg-bug.hg-bug-chase .hg-bug-sprite {
+  filter: drop-shadow(0 0 8px rgba(255,50,50,1)) drop-shadow(2px 2px 0 rgba(0,0,0,0.8));
+  animation: hg-bug-chase-anim 0.2s steps(2) infinite;
+}
+@keyframes hg-bug-chase-anim {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-3px); }
+  100% { transform: translateY(0); }
+}
+
+.hg-bug[data-state="stunned"] .hg-bug-sprite {
+  animation: hg-bug-stunned 0.3s steps(2) infinite alternate;
+}
+@keyframes hg-bug-stunned {
+  from { transform: rotate(-8deg); opacity: 0.5; }
+  to   { transform: rotate(8deg);  opacity: 1; }
+}
+
+/* Bug alert — Pokémon wild encounter style */
+.hg-bug-alert {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.5rem;
+  color: #fff;
+  background: #c8302a;
+  border: 3px solid #fff;
+  padding: 6px 14px;
+  white-space: nowrap;
+  z-index: 45;
+  pointer-events: none;
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.7);
+  animation: hg-alert-flash 0.4s steps(2) infinite;
+}
+@keyframes hg-alert-flash {
+  from { opacity: 1; }
+  to   { opacity: 0.7; }
+}
+
+/* ── Level-up message ────────────────────────────────────────────── */
+.hg-levelup-msg {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.7rem;
+  color: #ffd700;
+  background: #1a0a2e;
+  border: 3px solid #ffd700;
+  padding: 8px 16px;
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.8);
+  z-index: 50;
+  pointer-events: none;
+  animation: hg-levelup-anim 2.6s ease-out forwards;
+  white-space: nowrap;
+}
+@keyframes hg-levelup-anim {
+  0%   { opacity: 0; transform: translate(-50%, -30%) scale(0.8); }
+  15%  { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+  60%  { opacity: 1; transform: translate(-50%, -55%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -75%) scale(0.9); }
+}
+
+/* ── Secret zone hint ────────────────────────────────────────────── */
+.hg-secret-hint {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  z-index: 8;
+  pointer-events: none;
+  animation: hg-float 2s steps(4) infinite;
+  opacity: 0.5;
+}
+
+/* ── Starting home ───────────────────────────────────────────────── */
+.hg-home {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  z-index: 10;
+  cursor: default;
+}
+
+/* ── Pokémon Dialog Box ──────────────────────────────────────────── */
+.hg-dialog {
+  flex-shrink: 0;
+  height: 88px;
+  background: #2a2a2a;
+  padding: 4px 4px 0;
+  transition: height 0.15s steps(4);
+  overflow: hidden;
+  position: relative;
+}
+
+.hg-dialog.hg-dialog-open {
+  height: 128px;
+}
+
+/* Inner double-border cream box */
+.hg-dialog-inner {
+  background: #f8f5e4;
+  border: 3px solid #2a2a2a;
+  border-bottom: none;
+  height: 100%;
+  padding: 8px 14px 6px;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Content row: portrait + textbox */
+.hg-dialog-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  animation: hg-dialog-in 0.2s steps(3);
+}
+@keyframes hg-dialog-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.hg-dialog-portrait {
+  font-size: 38px;
+  line-height: 1;
+  flex-shrink: 0;
+  filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.3));
+}
+
+.hg-dialog-textbox {
+  flex: 1;
+  min-width: 0;
+}
+
+.hg-dialog-speaker {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.48rem;
+  margin-bottom: 5px;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
+}
+
+.hg-dialog-body {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  color: #1a1a1a;
+  line-height: 1.4;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* Blinking cursor arrow */
+.hg-dialog-cursor {
+  position: absolute;
+  bottom: 6px;
+  right: 10px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.5rem;
+  color: #2a2a2a;
+  animation: hg-cursor-blink 0.8s steps(2) infinite;
+}
+@keyframes hg-cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* Idle state */
+.hg-dialog-idle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  animation: hg-dialog-in 0.2s steps(3);
+}
+
+.hg-idle-icon { font-size: 28px; flex-shrink: 0; }
+
+.hg-idle-main {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  color: #1a1a1a;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.hg-idle-hint {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.55rem;
+  color: #666;
+}
+
+/* Unpin button — Pokémon B button style */
+.hg-unpin-btn {
+  position: absolute;
+  bottom: 6px;
+  right: 28px;
+  padding: 3px 8px;
+  background: #2a2a2a;
+  border: 2px solid #2a2a2a;
+  color: #f8f5e4;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.36rem;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.4);
+  transition: background 0.1s;
+}
+.hg-unpin-btn:hover {
+  background: #444;
+}
+
+/* ── Mobile D-pad (inside map, Pokémon style) ────────────────────── */
+.hg-dpad {
+  display: none;
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  z-index: 40;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.hg-dpad-col { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.hg-dpad-mid { display: flex; align-items: center; gap: 2px; }
+.hg-dpad-center {
+  width: 34px; height: 34px;
+  background: #1a1a2e;
+  border: 2px solid rgba(255,255,255,0.1);
+}
+.hg-dpad-btn {
+  width: 34px; height: 34px;
+  background: #2a2a2a;
+  border: 3px solid rgba(255,255,255,0.4);
+  color: #fff;
+  font-size: 0.65rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.6);
+}
+.hg-dpad-btn:active {
+  background: #c8302a;
+  border-color: #fff;
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 rgba(0,0,0,0.6);
+}
+
+@media (pointer: coarse) {
+  .hg-dpad { display: flex; }
+}
+
+/* ── HP Bar ──────────────────────────────────────────────────────── */
+.hg-hp-bar {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 3px;
+}
+.hg-hp-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: rgb(255, 255, 255);
+  width: 16px;
+  flex-shrink: 0;
+}
+.hg-hp-track {
+  width: 70px;
+  height: 6px;
+  background: #0a0818;
+  border: 2px solid rgba(255,255,255,0.3);
+  overflow: hidden;
+}
+.hg-hp-fill {
+  height: 100%;
+  transition: width 0.3s steps(6);
+}
+.hg-hp-val {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: rgb(255, 255, 255);
+  min-width: 28px;
+  text-align: right;
+}
+
+/* ── Monster ─────────────────────────────────────────────────────── */
+.hg-monster {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  z-index: 16;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  pointer-events: none;
+  will-change: left, top;
+}
+.hg-monster-sprite {
+  font-size: 22px;
+  line-height: 1;
+  filter: drop-shadow(0 0 5px var(--mc)) drop-shadow(2px 2px 0 rgba(0,0,0,0.8));
+}
+.hg-monster[data-chasing="1"] .hg-monster-sprite {
+  filter: drop-shadow(0 0 10px var(--mc)) drop-shadow(2px 2px 0 rgba(0,0,0,0.8));
+  animation: hg-bug-chase-anim 0.2s steps(2) infinite;
+}
+.hg-monster[data-state="stunned"] .hg-monster-sprite {
+  animation: hg-bug-stunned 0.3s steps(2) infinite alternate;
+}
+
+/* ── Battle Screen ───────────────────────────────────────────────── */
+.hg-battle {
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+  background: #0a0a1e;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Press Start 2P', monospace;
+  animation: hg-battle-in 0.25s steps(4);
+}
+@keyframes hg-battle-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.hg-battle-intro {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  z-index: 10;
+  animation: hg-intro-out 1.5s steps(4) forwards;
+}
+@keyframes hg-intro-out {
+  0%   { opacity: 1; }
+  70%  { opacity: 1; }
+  100% { opacity: 0; pointer-events: none; }
+}
+.hg-battle-intro-text {
+  font-size: 0.6rem;
+  color: #fff;
+  border: 3px solid #fff;
+  padding: 10px 18px;
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.7);
+  text-align: center;
+  animation: hg-exclaim 0.4s steps(2) infinite alternate;
+}
+
+/* Scene: gradient teinté par la couleur du monstre */
+.hg-battle-scene {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  padding: 12px 16px;
+  gap: 8px;
+  background:
+    radial-gradient(ellipse 60% 80% at 30% 50%, color-mix(in srgb, var(--mc, #fff) 8%, transparent) 0%, transparent 70%),
+    repeating-linear-gradient(0deg, transparent 0px, transparent 31px, rgba(255,255,255,0.02) 31px, rgba(255,255,255,0.02) 32px),
+    linear-gradient(180deg, #0a0a1e 0%, #141030 100%);
+  min-height: 0;
+}
+
+.hg-battle-enemy-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+}
+.hg-battle-player-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* Carte avec bordure colorée */
+.hg-battle-card {
+  background: #1a0a2e;
+  border: 3px solid color-mix(in srgb, var(--cc, #fff) 60%, transparent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--cc, #fff) 20%, transparent), 3px 3px 0 rgba(0,0,0,0.7);
+  padding: 6px 10px 7px;
+  min-width: 130px;
+}
+.hg-battle-card-player {
+  --cc: #a855f7;
+  border-color: color-mix(in srgb, #a855f7 60%, transparent);
+  box-shadow: 0 0 12px color-mix(in srgb, #a855f7 20%, transparent), 3px 3px 0 rgba(0,0,0,0.7);
+}
+.hg-battle-cname {
+  font-size: 0.48rem;
+  margin-bottom: 4px;
+}
+
+/* Badge de type */
+.hg-battle-type-badge {
+  display: inline-block;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 0;
+  color: #fff;
+  margin-bottom: 5px;
+  letter-spacing: 0.05em;
+}
+
+.hg-battle-hp-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.hg-battle-hp-lbl {
+  font-size: 10px;
+  color: rgb(255, 255, 255);
+  width: 16px;
+  flex-shrink: 0;
+}
+
+/* HP bar plus épaisse (8px) */
+.hg-battle-hp-track {
+  width: 70px;
+  height: 8px;
+  background: #0a0818;
+  border: 2px solid rgba(255,255,255,0.3);
+  overflow: hidden;
+}
+.hg-battle-hp-fill {
+  height: 100%;
+  transition: width 0.5s steps(10);
+  box-shadow: 0 0 4px currentColor;
+}
+.hg-battle-hp-val {
+  font-size: 10px;
+  color: rgb(255, 255, 255);
+  min-width: 34px;
+  text-align: right;
+}
+
+.hg-battle-enemy-sprite {
+  font-size: 52px;
+  filter: drop-shadow(0 0 14px var(--mc)) drop-shadow(3px 3px 0 rgba(0,0,0,0.9));
+  animation: hg-battle-bob 1s steps(2) infinite;
+}
+@keyframes hg-battle-bob {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+
+.hg-battle-player-sprite {
+  font-size: 38px;
+  filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.9)) drop-shadow(0 0 10px rgba(164,118,255,0.8));
+  animation: hg-walk 0.4s steps(2) infinite;
+}
+.hg-battle-player-img {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  display: block;
+}
+
+.hg-battle-log {
+  flex-shrink: 0;
+  height: 72px;
+  background: #2a2a2a;
+  padding: 4px 4px 0;
+}
+.hg-battle-log-inner {
+  background: #f8f5e4;
+  border: 3px solid #2a2a2a;
+  border-bottom: none;
+  height: 100%;
+  padding: 8px 14px 6px;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.hg-battle-log-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  color: #1a1a1a;
+  line-height: 1.3;
+}
+
+.hg-battle-actions {
+  flex-shrink: 0;
+  display: flex;
+  background: #2a2a2a;
+  padding: 0 4px 4px;
+  gap: 3px;
+}
+.hg-battle-btn {
+  flex: 1;
+  padding: 11px 4px;
+  background: #1a0a2e;
+  border: 2px solid #fff;
+  color: #fff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.1s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hg-battle-btn:hover:not(:disabled) { background: #2a1a4e; }
+.hg-battle-btn:active:not(:disabled) { background: #c8302a; }
+.hg-battle-btn-cd { opacity: 0.45; cursor: not-allowed; }
+
+/* Boutons stylisés par action */
+.hg-battle-btn-atk {
+  background: #1a0540;
+  border-color: #a855f7;
+}
+.hg-battle-btn-atk:hover:not(:disabled) { background: #2d0a60; }
+
+.hg-battle-btn-talent {
+  background: #0a1a0a;
+  border-color: #4ade80;
+  color: #4ade80;
+}
+.hg-battle-btn-talent:hover:not(:disabled) { background: #0f2510; }
+.hg-battle-btn-talent.hg-battle-btn-cd { color: rgba(74,222,128,0.4); }
+
+.hg-battle-btn-flee {
+  background: #1a1010;
+  border-color: rgba(255,255,255,0.45);
+  color: rgba(255,255,255,0.7);
+}
+
+/* ── Battle animations ───────────────────────────────────────────── */
+
+/* Player attack — lunge vers la droite */
+@keyframes hg-atk-right {
+  0%   { transform: translateX(0); }
+  40%  { transform: translateX(22px); }
+  100% { transform: translateX(0); }
+}
+
+/* Enemy attack — lunge vers la gauche */
+@keyframes hg-atk-left {
+  0%   { transform: translateX(0); }
+  40%  { transform: translateX(-22px); }
+  100% { transform: translateX(0); }
+}
+
+/* Hit flash */
+@keyframes hg-hit-flash-anim {
+  0%, 100% { filter: drop-shadow(0 0 0px transparent); }
+  30%  { filter: brightness(3) sepia(1) hue-rotate(280deg) drop-shadow(0 0 12px #f00); }
+  60%  { transform: translateX(-4px); filter: brightness(2) sepia(1) hue-rotate(280deg); }
+  80%  { transform: translateX(4px); }
+}
+
+.hg-battle-player-sprite.anim-atk-right { animation: none; }
+.hg-battle-enemy-sprite.anim-atk-left {
+  animation: hg-atk-left 0.42s steps(4) forwards;
+}
+.hg-battle-enemy-sprite.anim-hit {
+  animation: hg-hit-flash-anim 0.38s steps(4) forwards;
+}
+.hg-battle-player-sprite.anim-hit { animation: none; }
+
+/* ── Interior View ───────────────────────────────────────────────── */
+.hg-interior {
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  background: var(--ib, #0a0a1e);
+  animation: hg-battle-in 0.2s steps(3);
+}
+
+.hg-interior-exit-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 110;
+  padding: 5px 10px;
+  background: #2a2a2a;
+  border: 2px solid rgba(255,255,255,0.5);
+  color: #fff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+}
+.hg-interior-exit-btn:hover { background: #c8302a; border-color: #fff; }
+
+.hg-interior-room {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
+}
+.hg-interior-wall {
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(90deg, transparent 0px, transparent 63px, rgba(255,255,255,0.04) 63px, rgba(255,255,255,0.04) 64px),
+    repeating-linear-gradient(0deg, transparent 0px, transparent 47px, rgba(255,255,255,0.04) 47px, rgba(255,255,255,0.04) 48px),
+    linear-gradient(180deg, color-mix(in srgb, var(--ia) 20%, var(--ib)) 0%, var(--ib) 100%);
+}
+.hg-interior-floor {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 38%;
+  background:
+    repeating-linear-gradient(90deg, transparent 0px, transparent 31px, rgba(0,0,0,0.12) 31px, rgba(0,0,0,0.12) 32px),
+    color-mix(in srgb, var(--ia) 12%, #1a0a2e);
+}
+
+/* NPC positionné en haut de la pièce */
+.hg-interior-npc-wrap {
+  position: absolute;
+  top: 32%;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  z-index: 5;
+}
+.hg-interior-npc-sprite {
+  font-size: 56px;
+  filter: drop-shadow(0 0 18px var(--ia)) drop-shadow(3px 3px 0 rgba(0,0,0,0.9));
+  animation: hg-battle-bob 1.2s steps(2) infinite;
+}
+.hg-interior-npc-name {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  padding: 3px 8px;
+  background: #1a0a2e;
+  border: 2px solid var(--ia);
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.7);
+}
+
+/* Joueur à l'intérieur */
+.hg-int-player {
+  position: absolute;
+  z-index: 20;
+  transform: translate(-50%, -100%);
+}
+
+/* Prompt E dans l'intérieur */
+.hg-int-e-prompt {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: hg-eprompt 0.8s steps(2) infinite alternate;
+}
+
+/* Porte de sortie au bas de la pièce */
+.hg-int-door {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36px;
+  height: 50px;
+  background: rgba(0,0,0,0.85);
+  border: 3px solid var(--ia);
+  border-bottom: none;
+  z-index: 6;
+}
+.hg-int-door::before {
+  content: 'SORTIE';
+  position: absolute;
+  top: -30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: var(--ia);
+  white-space: nowrap;
+}
+
+.hg-interior-dialog {
+  flex-shrink: 0;
+  background: #2a2a2a;
+  padding: 4px 4px 0;
+  cursor: pointer;
+  min-height: 90px;
+}
+.hg-interior-dialog-inner {
+  background: #f8f5e4;
+  border: 3px solid #2a2a2a;
+  border-bottom: none;
+  padding: 8px 14px 8px;
+  min-height: 78px;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.hg-interior-speaker {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.65rem;
+  margin-bottom: 6px;
+}
+.hg-interior-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  color: #1a1a1a;
+  line-height: 1.4;
+  font-weight: 600;
+}
+.hg-interior-exit-hint {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: #000000;
+  margin-top: 6px;
+}
+
+/* Barre d'infos en bas quand pas en dialogue */
+.hg-interior-hint-bar {
+  flex-shrink: 0;
+  background: #2a2a2a;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+}
+.hg-interior-hint-bar .hg-idle-hint {
+  color: rgb(255, 255, 255);
+}
+
+/* ── D-pad A button ──────────────────────────────────────────────── */
+.hg-dpad-a-btn {
+  position: absolute;
+  right: -48px;
+  bottom: 0;
+  width: 38px; height: 38px;
+  background: #c8302a;
+  border: 3px solid #fff;
+  color: #fff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.7rem;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.6);
+  border-radius: 50%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.hg-dpad-a-btn:active { transform: translate(1px,1px); box-shadow: 1px 1px 0 rgba(0,0,0,0.6); }
+
+@media (pointer: coarse) {
+  .hg-dpad-a-btn { display: flex; }
+}
+
+/* ── Light theme adjustments ─────────────────────────────────────── */
+[data-theme="light"] .hg-map {
+  background:
+    repeating-linear-gradient(0deg, transparent 0px, transparent 31px, rgba(0,0,0,0.05) 31px, rgba(0,0,0,0.05) 32px),
+    repeating-linear-gradient(90deg, transparent 0px, transparent 31px, rgba(0,0,0,0.05) 31px, rgba(0,0,0,0.05) 32px),
+    radial-gradient(ellipse 90% 80% at 50% 40%, #8ad860 0%, #70c848 30%, #60b838 60%, #4aa028 100%);
+}
+[data-theme="light"] .hg-status-card,
+[data-theme="light"] .hg-pk-badge { border-color: #1a1a1a; background: #1a0a2e; }
+[data-theme="light"] .hg-dialog { background: #2a2a2a; }
+[data-theme="light"] .hg-dialog-inner { background: #fff8f0; border-color: #2a2a2a; }
+[data-theme="light"] .hg-dialog-body  { color: #1a1a1a; }
+[data-theme="light"] .hg-idle-main    { color: #1a1a1a; }

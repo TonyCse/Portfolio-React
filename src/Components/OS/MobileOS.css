@@ -1,0 +1,856 @@
+/* ═══════════════════════════════════════════════════════════════════
+   MobileOS.css — TonyOS Mobile (iOS-like)
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Root ────────────────────────────────────────────────────────── */
+.mob-os {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1;
+  /* Wallpaper blur */
+  color: #fff;
+}
+
+/* ── Status bar ──────────────────────────────────────────────────── */
+.mob-status {
+  height: 44px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  background: rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 10;
+}
+.mob-status-brand {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 0.04em;
+}
+.mob-status-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.03em;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.mob-status-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.7rem;
+}
+.mob-battery-icon {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.7);
+}
+.mob-signal-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+}
+.mob-signal-bars span {
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 1px;
+  width: 3px;
+}
+.mob-signal-bars span:nth-child(1) { height: 4px; }
+.mob-signal-bars span:nth-child(2) { height: 7px; }
+.mob-signal-bars span:nth-child(3) { height: 10px; }
+.mob-signal-bars span:nth-child(4) { height: 12px; }
+
+/* ── Home screen ─────────────────────────────────────────────────── */
+.mob-home {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 20px 0;
+  overflow: hidden;
+}
+
+/* ── Identity block ──────────────────────────────────────────────── */
+.mob-identity {
+  text-align: center;
+  padding: 10px 0 22px;
+  flex-shrink: 0;
+}
+
+.mob-date {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.72rem;
+  color: rgb(255, 255, 255);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: capitalize;
+  margin: 0 0 4px;
+}
+.mob-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  margin: 0;
+  background: linear-gradient(135deg, #ffffff 0%, #e2d4ff 50%, #c9a6ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
+}
+.mob-role {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  color: rgb(255, 255, 255);
+  letter-spacing: 0.06em;
+  margin: 5px 0 0;
+}
+
+/* ── Widgets ─────────────────────────────────────────────────────── */
+.mob-widgets {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-shrink: 0;
+}
+.mob-widget {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 14px;
+  padding: 10px 14px;
+  flex: 1;
+  min-width: 0;
+}
+.mob-widget-weather { flex: 0 0 auto; }
+.mob-widget-icon-lg { font-size: 1.6rem; line-height: 1; }
+.mob-widget-temp {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+}
+.mob-widget-city {
+  font-size: 0.6rem;
+  color: rgba(255,255,255,0.65);
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+}
+.mob-widget-quote {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  overflow: hidden;
+}
+.mob-widget-quote-icon { font-size: 0.9rem; flex-shrink: 0; padding-top: 1px; }
+.mob-widget-quote-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.45;
+  margin: 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+/* ── App grid ────────────────────────────────────────────────────── */
+.mob-grid-wrapper { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+.mob-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px 8px;
+  padding-bottom: 4px;
+}
+
+/* ── Page dots ───────────────────────────────────────────────────── */
+.mob-page-dots {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  padding: 8px 0 4px;
+  flex-shrink: 0;
+}
+.mob-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+.mob-dot-active {
+  background: rgba(255,255,255,0.9);
+  transform: scale(1.3);
+}
+
+/* ── App icon ────────────────────────────────────────────────────── */
+.mob-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.mob-icon-bg {
+  width: 62px;
+  height: 62px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  transition: transform 0.14s ease, box-shadow 0.14s;
+  position: relative;
+  overflow: hidden;
+}
+.mob-icon-bg::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 45%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+  border-radius: 16px 16px 0 0;
+}
+.mob-icon:active .mob-icon-bg {
+  transform: scale(0.88);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+.mob-icon-emoji {
+  font-size: 45px;
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+}
+.mob-icon-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 66px;
+  text-align: center;
+}
+
+/* ── Dock ────────────────────────────────────────────────────────── */
+.mob-dock {
+  flex-shrink: 0;
+  padding: 10px 20px 20px;
+}
+.mob-dock-inner {
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 24px;
+  padding: 10px 12px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.mob-dock-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  -webkit-tap-highlight-color: transparent;
+}
+.mob-dock-icon-bg {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transition: transform 0.14s ease;
+  position: relative;
+  overflow: hidden;
+}
+.mob-dock-icon-bg::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 45%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.22) 0%, transparent 100%);
+  border-radius: 14px 14px 0 0;
+}
+.mob-dock-btn:active .mob-dock-icon-bg { transform: scale(0.87); }
+.mob-dock-emoji {
+  font-size: 45px;
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Status bar icon buttons (theme + desktop switch) ─────────────── */
+.mob-status-icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 2px;
+  line-height: 1;
+  opacity: 0.85;
+  transition: opacity 0.14s, transform 0.12s;
+  -webkit-tap-highlight-color: transparent;
+}
+.mob-status-icon-btn:active { opacity: 1; transform: scale(0.84); }
+
+/* ── Avatar ───────────────────────────────────────────────────────── */
+.mob-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: contain;
+  border: 3px solid rgba(164, 118, 255, 0.6);
+  box-shadow: 0 0 24px rgba(164, 118, 255, 0.35), 0 4px 16px rgba(0,0,0,0.4);
+  margin-bottom: 6px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── App overlay (full screen) ────────────────────────────────────── */
+@keyframes mob-slide-up {
+  from { transform: translateY(100%); opacity: 0.6; border-radius: 28px; }
+  to   { transform: translateY(0);    opacity: 1;   border-radius: 0; }
+}
+@keyframes mob-slide-down {
+  from { transform: translateY(0);    opacity: 1;   }
+  to   { transform: translateY(100%); opacity: 0;   }
+}
+
+.mob-app-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  animation: mob-slide-up 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
+  overflow: hidden;
+}
+.mob-app-overlay.mob-closing {
+  animation: mob-slide-down 0.3s cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+.mob-app-header {
+  height: 52px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 2;
+  flex-shrink: 0;
+}
+[data-theme="light"] .mob-app-header {
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+  background: rgba(248, 246, 255, 0.96);
+}
+[data-theme="dark"] .mob-app-header,
+.mob-app-header {
+  background: rgba(14, 11, 28, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.mob-app-close {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.mob-app-close:active { background: rgba(255, 255, 255, 0.2); }
+[data-theme="light"] .mob-app-close {
+  background: rgba(0,0,0,0.06);
+  border-color: rgba(0,0,0,0.1);
+  color: rgba(0,0,0,0.6);
+}
+
+.mob-app-title-bar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.mob-app-title-icon { font-size: 16px; }
+.mob-app-title-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.8);
+}
+[data-theme="light"] .mob-app-title-text { color: rgba(0,0,0,0.7); }
+
+.mob-app-spacer { width: 34px; }
+
+.mob-app-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--bg);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(164, 118, 255, 0.3) transparent;
+}
+.mob-app-body::-webkit-scrollbar { width: 4px; }
+.mob-app-body::-webkit-scrollbar-thumb { background: rgba(164,118,255,0.3); border-radius: 2px; }
+
+/* Section overrides in mobile app body */
+.mob-app-body section,
+.mob-app-body #presentation,
+.mob-app-body #skills,
+.mob-app-body #experiences,
+.mob-app-body #projets,
+.mob-app-body #contact {
+  padding: 24px 18px !important;
+  min-height: unset !important;
+}
+.mob-app-body .contact-footer { padding: 20px 18px !important; }
+.mob-app-body .footer-laser-wrap { display: none; }
+.mob-app-body .site-footer { padding: 20px 18px !important; }
+.mob-app-body .about-wrapper { grid-template-columns: 1fr !important; justify-items: center; }
+.mob-app-body .about-photo-wrap { width: 160px; height: 184px; }
+.mob-app-body .passions-grid { grid-template-columns: repeat(2, 1fr) !important; }
+.mob-app-body .projets-grid { grid-template-columns: 1fr !important; }
+.mob-app-body .projets-wrapper, .mob-app-body .exp-wrapper { max-width: 100% !important; }
+.mob-app-body .skills-wrapper { padding: 0 !important; }
+/* Terminal in mobile app */
+.mob-app-body .term-window {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+  animation: none;
+}
+.mob-app-body .term-chrome { display: none; }
+.mob-app-body .term-output { flex: 1; max-height: unset; }
+.mob-app-body .term-shortcuts { max-width: unset; width: 100%; border-radius: 0; box-shadow: none; }
+
+/* Hobbies game — column layout so the map is visible above the panel */
+.mob-app-body .hg-root { flex-direction: column; height: 100%; min-height: unset; }
+.mob-app-body .hg-map { flex: 1; min-height: 200px; }
+.mob-app-body .hg-panel {
+  width: 100%;
+  max-height: 42%;
+  border-left: none;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+/* ── SpotifyApp in mobile ─────────────────────────────────────────── */
+.mob-app-body .sp-root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.mob-app-body .sp-inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+}
+.mob-app-body .sp-sidebar {
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  padding: 6px 12px;
+  border-right: none;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  gap: 4px;
+  overflow-x: auto;
+  flex-shrink: 0;
+}
+.mob-app-body .sp-logo { display: none; }
+.mob-app-body .sp-sidebar-sep { display: none; }
+.mob-app-body .sp-playlists {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  overflow-x: auto;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.mob-app-body .sp-playlist-header { display: none; }
+.mob-app-body .sp-playlist-item {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.66rem;
+  white-space: nowrap;
+}
+.mob-app-body .sp-nav {
+  flex-direction: row;
+  gap: 2px;
+}
+.mob-app-body .sp-nav-btn {
+  flex-direction: column;
+  padding: 4px 10px;
+  gap: 2px;
+  font-size: 0.62rem;
+  border-radius: 12px;
+}
+.mob-app-body .sp-nav-btn span:first-child { font-size: 14px; }
+.mob-app-body .sp-main {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  padding: 12px;
+}
+.mob-app-body .sp-album-hero {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+.mob-app-body .sp-album-cover { width: 80px; height: 80px; }
+.mob-app-body .sp-album-emoji { font-size: 2rem; }
+/* Player bar: stack rows vertically so controls don't overflow */
+.mob-app-body .sp-player {
+  height: auto;
+  flex-direction: column;
+  padding: 8px 14px 10px;
+  gap: 6px;
+}
+.mob-app-body .sp-now-playing { width: 100%; flex: unset; }
+.mob-app-body .sp-controls    { width: 100%; flex: unset; max-width: unset; }
+.mob-app-body .sp-volume      { display: none; }
+/* Sidebar: show only nav tabs, hide bulky playlists */
+.mob-app-body .sp-playlists   { display: none; }
+
+/* ── CVViewer in mobile ───────────────────────────────────────────── */
+.mob-app-body .cvpdf-root { height: 100%; display: flex; flex-direction: column; }
+.mob-app-body .cvpdf-frame-wrap { flex: 1; min-height: 0; }
+.mob-app-body .cvpdf-frame { height: 100%; }
+.mob-app-body .cvpdf-toolbar {
+  height: auto;
+  min-height: 46px;
+  flex-wrap: wrap;
+  padding: 6px 12px;
+  gap: 6px;
+}
+.mob-app-body .cvpdf-toolbar-left { flex: 1; min-width: 0; overflow: hidden; }
+.mob-app-body .cvpdf-filename {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.62rem;
+  max-width: 140px;
+  display: block;
+}
+.mob-app-body .cvpdf-btn { padding: 5px 10px; font-size: 0.68rem; }
+
+/* ── Presentation (card3d) ────────────────────────────────────────── */
+.mob-app-body .card3d-section { padding: 12px; align-items: flex-start; }
+.mob-app-body .card3d         { padding: 18px 16px; }
+.mob-app-body .card3d-top     { flex-direction: column; gap: 14px; align-items: center; text-align: center; }
+.mob-app-body .card3d-photo-ring { width: 82px; height: 82px; }
+.mob-app-body .card3d-avail   { justify-content: center; }
+.mob-app-body .card3d-name    { font-size: clamp(1.4rem, 6vw, 2rem); }
+.mob-app-body .card3d-line    { margin: 14px 0; }
+.mob-app-body .card3d-bottom  { grid-template-columns: 1fr; gap: 14px; }
+.mob-app-body .card3d-link    { font-size: 0.68rem; }
+.mob-app-body .card3d-link-val {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  flex: 1;
+}
+
+/* ── MailApp ─────────────────────────────────────────────────────── */
+.mob-app-body .mail-root { flex-direction: column; }
+.mob-app-body .mail-sidebar { display: none; }
+.mob-app-body .mail-list {
+  width: 100%;
+  max-height: 200px;
+  flex-shrink: 0;
+  border-right: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+.mob-app-body .mail-viewer  { flex: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column; }
+.mob-app-body .mail-viewer-header { padding: 12px 14px 10px; }
+.mob-app-body .mail-viewer-subject { font-size: 0.84rem; }
+.mob-app-body .mail-viewer-body { padding: 12px 14px; }
+.mob-app-body .mail-viewer-actions { padding: 10px 14px; flex-wrap: wrap; }
+.mob-app-body .mail-compose { width: calc(100vw - 24px); max-width: 100%; }
+.mob-app-body .mail-cc-links,
+.mob-app-body .mail-cc-actions { max-width: 100%; }
+.mob-app-body .mail-contact-card { padding: 16px 12px; gap: 8px; }
+.mob-app-body .mail-cc-link-val { font-size: 0.58rem; }
+
+/* ── VSCodeSkills — layout mobile avec sidebar compacte ────────────── */
+.mob-app-body .vsc-root {
+  grid-template-columns: 28px 82px 1fr;
+  grid-template-areas: "act side editor" "act side status";
+  overflow: hidden;
+}
+
+/* Activity bar */
+.mob-app-body .vsc-activity  { width: 28px; min-width: 28px; }
+.mob-app-body .vsc-act-btn   { width: 28px; height: 30px; font-size: 0.8rem; }
+.mob-app-body .vsc-act-avatar { width: 20px; height: 20px; margin-bottom: 4px; }
+
+/* Sidebar compacte */
+.mob-app-body .vsc-sidebar    { width: 82px; min-width: 0; overflow: hidden; }
+.mob-app-body .vsc-sidebar-hd { font-size: 0.44rem; padding: 6px 4px 2px; letter-spacing: 0.05em; }
+.mob-app-body .vsc-sidebar-sub { display: none; }
+.mob-app-body .vsc-folder-row { font-size: 0.56rem; padding: 3px 2px 3px 4px; gap: 2px; }
+.mob-app-body .vsc-fold-arrow { display: none; }
+.mob-app-body .vsc-fold-icon  { font-size: 0.7rem; }
+.mob-app-body .vsc-fold-label { font-size: 0.54rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 52px; }
+.mob-app-body .vsc-file-row   { font-size: 0.54rem; padding: 2px 2px 2px 10px; gap: 3px; }
+.mob-app-body .vsc-file-name  { font-size: 0.52rem; }
+.mob-app-body .vsc-file-dot   { display: none; }
+.mob-app-body .vsc-search-input { font-size: 0.58rem; margin: 3px 4px; padding: 3px 5px; width: calc(100% - 8px); }
+.mob-app-body .vsc-ext-row    { padding: 4px 5px; gap: 4px; }
+.mob-app-body .vsc-ext-name   { font-size: 0.56rem; }
+.mob-app-body .vsc-ext-pub    { font-size: 0.5rem; }
+.mob-app-body .vsc-git-branch,
+.mob-app-body .vsc-git-clean,
+.mob-app-body .vsc-git-commit { font-size: 0.54rem; padding: 2px 6px; }
+
+/* Éditeur : le vrai correctif — min-width:0 pour contenir le pre */
+.mob-app-body .vsc-editor-area { min-width: 0; overflow: hidden; }
+.mob-app-body .vsc-tabs-bar    { overflow-x: auto; }
+.mob-app-body .vsc-tab         { font-size: 0.6rem; padding: 0 7px; height: 28px; flex-shrink: 0; }
+.mob-app-body .vsc-breadcrumb  { font-size: 0.58rem; padding: 2px 7px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+
+/* Code scroll interne — le pre ne force plus la largeur du parent */
+.mob-app-body .vsc-code-wrap   { overflow-x: auto; }
+.mob-app-body .vsc-code-inner  { min-width: 0; }
+.mob-app-body .vsc-code        { font-size: 0.6rem; padding: 6px 8px 40px; min-width: 0; }
+.mob-app-body .vsc-gutter      { min-width: 24px; padding: 6px 3px 6px 6px; flex-shrink: 0; }
+.mob-app-body .vsc-ln          { font-size: 0.6rem; }
+
+/* Terminal */
+.mob-app-body .vsc-terminal    { height: 80px; overflow: hidden; }
+.mob-app-body .vsc-term-body   { overflow-x: hidden; font-size: 0.6rem; white-space: pre-wrap; }
+
+/* Badge proficiency */
+.mob-app-body .vsc-skill-badge { right: 6px; bottom: 86px; min-width: 100px; font-size: 0.58rem; padding: 5px 8px; }
+.mob-app-body .vsc-skill-badge-name { font-size: 0.6rem; gap: 4px; margin-bottom: 3px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+
+/* Status bar */
+.mob-app-body .vsc-statusbar   { font-size: 0.54rem; padding: 0 3px; }
+.mob-app-body .vsc-status-user { display: none; }
+.mob-app-body .vsc-status-item { padding: 0 4px; }
+
+/* Welcome screen */
+.mob-app-body .vsc-welcome     { padding: 12px 8px; gap: 6px; }
+.mob-app-body .vsc-welcome-chip { font-size: 0.6rem; padding: 3px 7px; }
+
+/* ── TaskManager (Expériences) ─────────────────────────────────────── */
+.mob-app-body .tm-menubar   { display: none; }
+.mob-app-body .tm-filter-btns { display: none; }
+.mob-app-body .tm-tabs      { overflow-x: auto; padding: 0 6px; gap: 0; }
+.mob-app-body .tm-tab       { padding: 7px 10px; font-size: 0.74rem; }
+.mob-app-body .tm-statusbar { display: none; }
+.mob-app-body .tm-thead,
+.mob-app-body .tm-row       { grid-template-columns: 1fr 86px; padding: 7px 10px; }
+.mob-app-body .tm-td-date,
+.mob-app-body .tm-td-type,
+.mob-app-body .tm-row > .tm-td:nth-child(4),
+.mob-app-body .tm-th:nth-child(2),
+.mob-app-body .tm-th:nth-child(3),
+.mob-app-body .tm-th:nth-child(4) { display: none; }
+.mob-app-body .tm-detail    { padding: 10px 12px; gap: 8px; }
+.mob-app-body .tm-skill-row { grid-template-columns: 78px 1fr 30px; }
+.mob-app-body .tm-perf-body { padding: 12px; }
+
+/* ── FileExplorer (Projets) ────────────────────────────────────────── */
+.mob-app-body .fe-tree    { display: none; }
+.mob-app-body .fe-search  { display: none; }
+.mob-app-body .fe-toolbar { gap: 4px; padding: 4px 8px; flex-wrap: nowrap; }
+.mob-app-body .fe-address { min-width: 0; font-size: 0.68rem; overflow: hidden; }
+.mob-app-body .fe-content { padding: 10px; }
+.mob-app-body .fe-grid    { grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: 8px; }
+.mob-app-body .fe-detail  { max-width: 100%; }
+.mob-app-body .fe-statusbar { display: none; }
+.mob-app-body .fe-detail-img { max-height: 160px; }
+
+/* ════════════════════════════════════════════════════════════════════
+   Light mode
+   ════════════════════════════════════════════════════════════════════ */
+[data-theme="light"] .mob-status {
+  background: rgba(255, 255, 255, 0.3);
+}
+[data-theme="light"] .mob-status-brand { color: rgba(0,0,0,0.45); }
+[data-theme="light"] .mob-status-time  { color: rgba(0,0,0,0.82); }
+[data-theme="light"] .mob-signal-bars span { background: rgba(0,0,0,0.6); }
+
+[data-theme="light"] .mob-name {
+  background: linear-gradient(135deg, #1a0a2e 0%, #4a1d96 50%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+[data-theme="light"] .mob-date { color: rgba(0,0,0,0.45); }
+[data-theme="light"] .mob-role { color: rgba(0,0,0,0.4); }
+[data-theme="light"] .mob-version-tag { color: rgba(0,0,0,0.3); }
+[data-theme="light"] .mob-icon-label { color: rgba(0,0,0,0.75); text-shadow: 0 1px 2px rgba(255,255,255,0.8); }
+
+[data-theme="light"] .mob-dock-inner {
+  background: rgba(255, 255, 255, 0.55);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+[data-theme="light"] .mob-theme-btn {
+  background: rgba(0,0,0,0.1);
+  border-color: rgba(0,0,0,0.15);
+}
+[data-theme="light"] .mob-app-body { background: var(--bg); }
+[data-theme="light"] .mob-status-icon-btn { color: rgba(0,0,0,0.65); }
+
+/* ── Lock screen ──────────────────────────────────────────────────── */
+@keyframes mob-lock-exit {
+  from { transform: translateY(0);     opacity: 1; }
+  to   { transform: translateY(-100%); opacity: 0; }
+}
+@keyframes mob-lock-thumb-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.5); }
+  50%       { box-shadow: 0 0 0 8px rgba(168, 85, 247, 0); }
+}
+
+.mob-lockscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 80px 30px 70px;
+  background: linear-gradient(160deg, #070312 0%, #0f0524 45%, #0a1020 100%);
+  user-select: none;
+}
+.mob-lockscreen.mob-lock-exiting {
+  animation: mob-lock-exit 0.44s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.mob-lock-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.mob-lock-time {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 5.5rem;
+  font-weight: 200;
+  color: #fff;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.mob-lock-date {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  color: rgb(255, 255, 255);
+  font-weight: 400;
+  text-transform: capitalize;
+  letter-spacing: 0.03em;
+}
+
+/* ── Slider ───────────────────────────────────────────────────────── */
+.mob-lock-track {
+  position: relative;
+  width: 260px;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 28px;
+  display: flex;
+  align-items: center;
+  padding: 0 4px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  overflow: hidden;
+}
+.mob-lock-track-done {
+  background: rgba(168, 85, 247, 0.18);
+  border-color: rgba(168, 85, 247, 0.4);
+}
+.mob-lock-track-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgb(255, 255, 255);
+  letter-spacing: 0.06em;
+  pointer-events: none;
+  padding-left: 52px;
+}
+.mob-lock-thumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #a855f7, #7c3aed);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #fff;
+  cursor: grab;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 2px 14px rgba(168, 85, 247, 0.55);
+  animation: mob-lock-thumb-pulse 2s ease-in-out infinite;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.mob-lock-thumb:active { cursor: grabbing; }
+.mob-lock-thumb-done {
+  animation: none;
+  background: linear-gradient(135deg, #c084fc, #a855f7);
+}
