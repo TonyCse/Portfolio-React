@@ -19,16 +19,17 @@ const GENRES = [
 ]
 
 async function fetchTracks(query) {
-  const res  = await fetch(`https://api.deezer.com/search?q=${encodeURIComponent(query)}&limit=12`)
+  const url  = `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&entity=song&limit=12`
+  const res  = await fetch(url)
   const json = await res.json()
-  return (json.data || [])
-    .filter(t => t.preview)
+  return (json.results || [])
+    .filter(t => t.previewUrl)
     .map(t => ({
-      id:     t.id,
-      title:  t.title,
-      artist: t.artist.name,
-      url:    t.preview,
-      cover:  t.album.cover_medium,
+      id:     t.trackId,
+      title:  t.trackName,
+      artist: t.artistName,
+      url:    t.previewUrl,
+      cover:  (t.artworkUrl100 || '').replace('100x100bb', '300x300bb'),
     }))
 }
 
