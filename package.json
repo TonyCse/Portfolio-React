@@ -53,5 +53,8 @@
   },
   "devDependencies": {
     "react-router-dom": "^6.21.2"
+  },
+  "engines": {
+    "node": "22.x"
   }
 }
