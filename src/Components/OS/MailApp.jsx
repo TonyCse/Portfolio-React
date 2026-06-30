@@ -96,7 +96,7 @@ function ComposeModal({ onClose }) {
       await emailjs.send(
         EJS_SERVICE,
         EJS_TEMPLATE,
-        { from_name: name, from_email: from, subject: subj, message: body },
+        { name, email: from, title: subj, message: body },
         EJS_KEY,
       )
       setStatus('sent')
