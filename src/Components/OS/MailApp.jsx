@@ -5,7 +5,8 @@ import avatarContact from '../../images/avatarcontact.png'
 
 const EJS_SERVICE  = 'service_eweyy9k'
 const EJS_TEMPLATE = 'template_3ya6ezx'
-const EJS_KEY      = 'uzZjO9OcyTLDgJoTA'
+
+emailjs.init({ publicKey: 'uzZjO9OcyTLDgJoTA' })
 
 const TONY_EMAIL    = 'tonycseresznyak@hotmail.com'
 const TONY_LINKEDIN = 'https://www.linkedin.com/in/tony-cseresznyak'
@@ -76,8 +77,7 @@ function ComposeModal({ onClose }) {
   const [body,   setBody]   = useState('')
   const [status, setStatus] = useState('idle') // idle | sending | sent | error
 
-  const isConfigured = EJS_SERVICE && EJS_TEMPLATE && EJS_KEY &&
-    !EJS_SERVICE.startsWith('YOUR_') && !EJS_TEMPLATE.startsWith('YOUR_')
+  const isConfigured = !!(EJS_SERVICE && EJS_TEMPLATE)
 
   const handleSend = async () => {
     if (!name || !from || !subj || !body) return
@@ -96,7 +96,6 @@ function ComposeModal({ onClose }) {
         EJS_SERVICE,
         EJS_TEMPLATE,
         { name, email: from, title: subj, message: body },
-        { publicKey: EJS_KEY },
       )
       setStatus('sent')
       setTimeout(onClose, 2000)
