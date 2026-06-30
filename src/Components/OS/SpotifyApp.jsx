@@ -19,7 +19,7 @@ const GENRES = [
 ]
 
 async function fetchTracks(query, signal) {
-  const url = `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&entity=song&limit=12`
+  const url = `/api/music?q=${encodeURIComponent(query)}`
   const res = await fetch(url, { signal })
   if (!res.ok) throw new Error(`HTTP ${res.status}`)
   const json = await res.json()
