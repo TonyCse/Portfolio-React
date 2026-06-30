@@ -779,7 +779,7 @@ function HobbiesGame() {
     window.addEventListener('keydown', onDown)
     window.addEventListener('keyup',   onUp)
     return () => { window.removeEventListener('keydown', onDown); window.removeEventListener('keyup', onUp) }
-  }, [advanceInteriorDialog, startInteriorDialog, enterBuilding, exitBuilding])
+  }, [advanceInteriorDialog, startInteriorDialog, enterBuilding, exitBuilding]) // eslint-disable-line react-hooks/exhaustive-deps
 
   /* ── Main game loop ── */
   useEffect(() => {

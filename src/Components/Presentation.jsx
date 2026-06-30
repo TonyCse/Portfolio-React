@@ -37,8 +37,6 @@ function Presentation() {
     card.style.boxShadow  = ''
   }, [])
 
-  const copyEmail = () => navigator.clipboard?.writeText(TONY_EMAIL).catch(() => {})
-
   return (
     <section
       id="presentation"

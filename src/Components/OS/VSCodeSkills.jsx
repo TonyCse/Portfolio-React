@@ -566,7 +566,7 @@ const featured = await Project
   .limit(6)
   .lean()`,
 
-  postgres: `-- PostgreSQL.sql — SGBDR avancé  ⭐ Débutant+ · 1 an
+  postgres_adv: `-- PostgreSQL.sql — SGBDR avancé  ⭐ Débutant+ · 1 an
 
 -- Création schéma
 CREATE SCHEMA IF NOT EXISTS portfolio;
