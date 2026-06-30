@@ -18,9 +18,10 @@ const GENRES = [
   { name: 'Focus',   emoji: '🎯', query: 'focus work study beat', color: '#b45309' },
 ]
 
-async function fetchTracks(query) {
-  const url  = `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&entity=song&limit=12`
-  const res  = await fetch(url)
+async function fetchTracks(query, signal) {
+  const url = `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&entity=song&limit=12`
+  const res = await fetch(url, { signal })
+  if (!res.ok) throw new Error(`HTTP ${res.status}`)
   const json = await res.json()
   return (json.results || [])
     .filter(t => t.previewUrl)
@@ -60,7 +61,8 @@ function SpotifyApp({ volume }) {
   const rafRef      = useRef(null)
   const musicVolRef = useRef(0.8)
   const globalVolRef= useRef(volume)
-  const searchTimer = useRef(null)
+  const searchTimer      = useRef(null)
+  const searchController = useRef(null)
 
   const [tracks,       setTracks]       = useState([])
   const [trackIdx,     setTrackIdx]     = useState(0)
@@ -105,13 +107,17 @@ function SpotifyApp({ volume }) {
     setCurrentTime(0); setDuration(0)
     setLoading(true); setError(false); setTracks([])
     setCurrentPL(pl); setActiveNav('home')
+
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 10000)
     try {
-      const data = await fetchTracks(pl.query)
+      const data = await fetchTracks(pl.query, controller.signal)
       setTracks(data)
       setTrackIdx(0)
-    } catch {
-      setError(true)
+    } catch (e) {
+      if (e.name !== 'AbortError') setError(true)
     } finally {
+      clearTimeout(timeout)
       setLoading(false)
     }
   }, [stopRaf])
@@ -178,19 +184,22 @@ function SpotifyApp({ volume }) {
   const handleSearch = useCallback((q) => {
     setSearchQuery(q)
     clearTimeout(searchTimer.current)
+    searchController.current?.abort()
     if (!q.trim()) { setSearchResults(null); return }
     setSearching(true)
     searchTimer.current = setTimeout(async () => {
+      const ctrl = new AbortController()
+      searchController.current = ctrl
       try {
-        const data = await fetchTracks(q)
+        const data = await fetchTracks(q, ctrl.signal)
         setSearchResults(data)
-      } catch {
-        setSearchResults([])
+      } catch (e) {
+        if (e.name !== 'AbortError') setSearchResults([])
       } finally {
         setSearching(false)
       }
     }, 600)
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const volIcon = localVol === 0 ? '🔇' : localVol < 0.35 ? '🔈' : localVol < 0.7 ? '🔉' : '🔊'
 
@@ -198,7 +207,6 @@ function SpotifyApp({ volume }) {
     <div className="sp-root">
       <audio
         ref={audioRef}
-        crossOrigin="anonymous"
         onEnded={next}
         onLoadedMetadata={() => audioRef.current && setDuration(audioRef.current.duration)}
       />
