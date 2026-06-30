@@ -83,7 +83,7 @@ function ComposeModal({ onClose }) {
     if (!name || !from || !subj || !body) return
 
     if (!isConfigured) {
-      // Fallback : ouvre le client mail natif
+      console.warn('[MailApp] EmailJS non configuré — variables manquantes dans le build')
       const mailto = `mailto:${TONY_EMAIL}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(`De : ${name} <${from}>\n\n${body}`)}`
       window.open(mailto)
       setStatus('sent')
