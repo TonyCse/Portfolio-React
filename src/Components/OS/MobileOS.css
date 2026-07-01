@@ -607,21 +607,25 @@
 }
 
 /* ── MailApp ─────────────────────────────────────────────────────── */
-.mob-app-body .mail-root { flex-direction: column; }
+.mob-app-body .mail-root {
+  flex-direction: column;
+  height: auto;
+  overflow: visible;
+}
 .mob-app-body .mail-sidebar { display: none; }
 .mob-app-body .mail-viewer  {
   order: -1;
   flex: 0 0 auto;
-  overflow-y: auto;
+  overflow: visible;
   display: flex;
   flex-direction: column;
 }
 .mob-app-body .mail-list {
   order: 0;
   width: 100%;
-  max-height: 260px;
   flex-shrink: 0;
-  overflow-y: auto;
+  overflow: visible;
+  max-height: unset;
   border-right: none;
   border-top: 1px solid rgba(255, 255, 255, 0.07);
 }
