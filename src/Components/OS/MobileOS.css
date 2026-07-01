@@ -637,7 +637,8 @@
 .mob-app-body .mail-cc-links,
 .mob-app-body .mail-cc-actions { max-width: 100%; }
 .mob-app-body .mail-contact-card { padding: 16px 12px; gap: 8px; }
-.mob-app-body .mail-cc-link-val { font-size: 0.58rem; }
+.mob-app-body .mail-cc-link-val { font-size: 12px; }
+.mob-app-body .mail-cc-avatar  { object-position: 50% 105%; }
 
 /* ── VSCodeSkills — layout mobile avec sidebar compacte ────────────── */
 .mob-app-body .vsc-root {
