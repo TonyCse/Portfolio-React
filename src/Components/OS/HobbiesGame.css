@@ -38,8 +38,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 150%;
-  height: 120%;
+  width: 220%;
+  height: 180%;
   transform-origin: 0 0;
   will-change: transform;
 }
@@ -1167,6 +1167,7 @@
 }
 .hg-battle-btn:hover:not(:disabled) { background: #2a1a4e; }
 .hg-battle-btn:active:not(:disabled) { background: #c8302a; }
+.hg-battle-btn:disabled { opacity: 0.28; cursor: not-allowed; pointer-events: none; }
 .hg-battle-btn-cd { opacity: 0.45; cursor: not-allowed; }
 
 /* Boutons stylisés par action */

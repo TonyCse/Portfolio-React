@@ -335,17 +335,15 @@ function BattleScreen({ battle, playerHp, playerMaxHp, playerLevel, onAction, ba
         </div>
       </div>
 
-      {isPlayerTurn && (
-        <div className="hg-battle-actions">
-          <button className="hg-battle-btn hg-battle-btn-atk" onClick={() => onAction('attack')}>ATTAQUER</button>
-          <button
-            className={`hg-battle-btn hg-battle-btn-talent${battle.talentCd > 0 ? ' hg-battle-btn-cd' : ''}`}
-            onClick={() => onAction('talent')}
-            disabled={battle.talentCd > 0}
-          >TALENT{battle.talentCd > 0 ? ` (${battle.talentCd})` : ''}</button>
-          <button className="hg-battle-btn hg-battle-btn-flee" onClick={() => onAction('flee')}>FUIR</button>
-        </div>
-      )}
+      <div className="hg-battle-actions">
+        <button className="hg-battle-btn hg-battle-btn-atk" onClick={() => onAction('attack')} disabled={!isPlayerTurn}>ATTAQUER</button>
+        <button
+          className={`hg-battle-btn hg-battle-btn-talent${battle.talentCd > 0 ? ' hg-battle-btn-cd' : ''}`}
+          onClick={() => onAction('talent')}
+          disabled={!isPlayerTurn || battle.talentCd > 0}
+        >TALENT{battle.talentCd > 0 ? ` (${battle.talentCd})` : ''}</button>
+        <button className="hg-battle-btn hg-battle-btn-flee" onClick={() => onAction('flee')} disabled={!isPlayerTurn}>FUIR</button>
+      </div>
     </div>
   )
 }
