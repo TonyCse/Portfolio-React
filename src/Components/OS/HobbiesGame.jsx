@@ -9,19 +9,20 @@ import imgAie      from '../../images/aie.png'
 function readSave() {
   try {
     return {
-      xp:         parseInt(localStorage.getItem('tonyos_game_xp') || '0', 10),
-      collected:  new Set(JSON.parse(localStorage.getItem('tonyos_game_collected') || '[]')),
-      visited:    new Set(JSON.parse(localStorage.getItem('tonyos_game_visited')   || '[]')),
-      questState: localStorage.getItem('tonyos_game_quest') || null,
-      questKills: parseInt(localStorage.getItem('tonyos_game_quest_kills') || '0', 10),
+      xp:           parseInt(localStorage.getItem('tonyos_game_xp') || '0', 10),
+      collected:    new Set(JSON.parse(localStorage.getItem('tonyos_game_collected') || '[]')),
+      visited:      new Set(JSON.parse(localStorage.getItem('tonyos_game_visited')   || '[]')),
+      questState:   localStorage.getItem('tonyos_game_quest') || null,
+      questKills:   parseInt(localStorage.getItem('tonyos_game_quest_kills') || '0', 10),
+      bossDefeated: localStorage.getItem('tonyos_boss_defeated') === '1',
     }
-  } catch { return { xp: 0, collected: new Set(), visited: new Set(), questState: null, questKills: 0 } }
+  } catch { return { xp: 0, collected: new Set(), visited: new Set(), questState: null, questKills: 0, bossDefeated: false } }
 }
 const GAME_SAVE = readSave()
 
 /* ── World constants ── */
-const WORLD_W = 1.5
-const WORLD_H = 1.2
+const WORLD_W = 2.2
+const WORLD_H = 1.8
 const SPEED        = 200
 const SPRINT_MUL   = 1.75
 const NPC_SPEED    = 48
@@ -65,11 +66,10 @@ const MONSTER_TYPES = {
 }
 
 const INIT_MONSTERS = [
-  { id: 'm1', type: 'bug',    pos: { x: 0.72, y: 0.08 }, spawn: { x: 0.72, y: 0.08 } },
-  { id: 'm2', type: 'glitch', pos: { x: 0.12, y: 0.36 }, spawn: { x: 0.12, y: 0.36 } },
-  { id: 'm3', type: 'crash',  pos: { x: 0.68, y: 0.82 }, spawn: { x: 0.68, y: 0.82 } },
-  { id: 'm4', type: 'virus',  pos: { x: 0.40, y: 0.08 }, spawn: { x: 0.40, y: 0.08 } },
-  { id: 'm5', type: 'boss',   pos: { x: 0.82, y: 0.50 }, spawn: { x: 0.82, y: 0.50 } },
+  { id: 'm1', type: 'bug',    pos: { x: 0.72, y: 0.25 }, spawn: { x: 0.72, y: 0.25 } },
+  { id: 'm2', type: 'glitch', pos: { x: 0.20, y: 0.38 }, spawn: { x: 0.20, y: 0.38 } },
+  { id: 'm3', type: 'crash',  pos: { x: 0.65, y: 0.75 }, spawn: { x: 0.65, y: 0.75 } },
+  { id: 'm4', type: 'virus',  pos: { x: 0.42, y: 0.25 }, spawn: { x: 0.42, y: 0.25 } },
 ]
 const RESPAWN_DELAY = 25
 
@@ -88,15 +88,13 @@ const ZONE_INTERIORS = {
   secret: {
     bg: '#0a0020', accent: '#a855f7',
     npc: { sprite: '🧑‍💻', name: 'DEV TONY' },
+    isBossZone: true,
     lines: [
       "🖥️ Bienvenue dans ma Dev Cave, Explorateur !",
-      "Je suis Tony — full stack depuis 2020.",
       "React · Next.js · Node · Laravel · PostgreSQL",
-      "Autodidacte : j'ai quitté 7 ans en sécurité",
-      "pour plonger à fond dans le développement web.",
-      "Bac+4 Full Stack terminé ✓ Open to work 🟢",
-      "Ce portfolio lui-même est React + Canvas. 🎨",
-      "Tu es une vraie LÉGENDE pour avoir tout trouvé ! 🏆",
+      "Bac+4 Full Stack ✓ — Open to work 🟢",
+      "⚠️ Mais DARK CORR veille sur ces lieux...",
+      "Oses-tu affronter le Boss Final ?",
     ],
   },
 }
@@ -189,11 +187,11 @@ const DECOS = [
 ]
 
 const COLLECTIBLES = [
-  { id: 'c1', icon: '💫', x: 0.18, y: 0.10 },
+  { id: 'c1', icon: '💫', x: 0.22, y: 0.20 },
   { id: 'c2', icon: '💎', x: 0.70, y: 0.28 },
-  { id: 'c3', icon: '📜', x: 0.04, y: 0.52 },
+  { id: 'c3', icon: '📜', x: 0.18, y: 0.55 },
   { id: 'c4', icon: '🗝️', x: 0.72, y: 0.65 },
-  { id: 'c5', icon: '⭐', x: 0.38, y: 0.82 },
+  { id: 'c5', icon: '⭐', x: 0.38, y: 0.80 },
 ]
 
 /* Le sorcier patrouille uniquement sur les routes du village */
@@ -353,10 +351,11 @@ function BattleScreen({ battle, playerHp, playerMaxHp, playerLevel, onAction, ba
 }
 
 /* ── Interior View ── */
-function InteriorView({ zone, nearNpc, dialog, dialogLine, onAdvanceDialog, onExit, playerElRef }) {
+function InteriorView({ zone, nearNpc, dialog, dialogLine, onAdvanceDialog, onExit, playerElRef, onBossChallenge, bossDefeated }) {
   const interior = ZONE_INTERIORS[zone.id]
   if (!interior) return null
   const isLast = dialogLine >= interior.lines.length - 1
+  const showBossChoice = !!interior.isBossZone && dialog && isLast && !bossDefeated
 
   return (
     <div className="hg-interior" style={{ '--ia': interior.accent, '--ib': interior.bg }}>
@@ -393,12 +392,21 @@ function InteriorView({ zone, nearNpc, dialog, dialogLine, onAdvanceDialog, onEx
 
       {/* Boîte de dialogue PNJ */}
       {dialog ? (
-        <div className="hg-interior-dialog" onClick={onAdvanceDialog}>
+        <div className="hg-interior-dialog" onClick={!showBossChoice ? onAdvanceDialog : undefined}>
           <div className="hg-interior-dialog-inner">
             <div className="hg-interior-speaker" style={{ color: interior.accent }}>{interior.npc.name}</div>
             <div className="hg-interior-text">{interior.lines[dialogLine]}</div>
             {!isLast && <div className="hg-dialog-cursor">▼</div>}
-            {isLast && <div className="hg-interior-exit-hint">[ E pour continuer ]</div>}
+            {isLast && !showBossChoice && !bossDefeated && <div className="hg-interior-exit-hint">[ E pour continuer ]</div>}
+            {isLast && interior.isBossZone && bossDefeated && (
+              <div className="hg-interior-exit-hint">[ DARK CORR est vaincu ! LÉGENDE 🏆 ]</div>
+            )}
+            {showBossChoice && (
+              <div className="hg-boss-choice">
+                <button className="hg-boss-choice-fight" onClick={onBossChallenge}>⚔️ AFFRONTER</button>
+                <button className="hg-boss-choice-flee"  onClick={onExit}>🚪 PARTIR</button>
+              </div>
+            )}
           </div>
         </div>
       ) : (
@@ -442,10 +450,11 @@ function HobbiesGame() {
   const nearRef      = useRef(null)
 
   /* battle / interior refs */
-  const playerHpRef   = useRef(getLevel(GAME_SAVE.xp).maxHp)
-  const inBattleRef   = useRef(false)
-  const insideZoneRef = useRef(null)
-  const battleRef     = useRef(null)
+  const playerHpRef    = useRef(getLevel(GAME_SAVE.xp).maxHp)
+  const inBattleRef    = useRef(false)
+  const insideZoneRef  = useRef(null)
+  const battleRef      = useRef(null)
+  const bossDefeatedRef= useRef(GAME_SAVE.bossDefeated)
 
   /* interior exploration refs */
   const interiorPlayerElRef = useRef(null)
@@ -489,6 +498,7 @@ function HobbiesGame() {
   const [interiorNearNpc, setInteriorNearNpc] = useState(false)
   const [interiorDialog,  setInteriorDialog]  = useState(false)
   const [intDialogLine,   setIntDialogLine]   = useState(0)
+  const [bossDefeated,   setBossDefeated]   = useState(GAME_SAVE.bossDefeated)
 
   /* mirror battle to ref */
   useEffect(() => { battleRef.current = battle }, [battle])
@@ -499,6 +509,7 @@ function HobbiesGame() {
   useEffect(() => { localStorage.setItem('tonyos_game_visited',   JSON.stringify([...visited]))   }, [visited])
   useEffect(() => { if (questState) localStorage.setItem('tonyos_game_quest', questState) }, [questState])
   useEffect(() => { localStorage.setItem('tonyos_game_quest_kills', String(questKills)) }, [questKills])
+  useEffect(() => { localStorage.setItem('tonyos_boss_defeated', bossDefeated ? '1' : '0') }, [bossDefeated])
 
   /* wheel → zoom autour du joueur */
   useEffect(() => {
@@ -630,6 +641,12 @@ function HobbiesGame() {
     setTimeout(() => setQuestDialog(null), 4500)
   }, [grantXP])
 
+  /* ── Boss battle trigger ── */
+  const startBossBattle = useCallback(() => {
+    exitBuilding()
+    setTimeout(() => startBattle('boss_npc', 'boss'), 200)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   /* ── Battle: start ── */
   const startBattle = useCallback((monsterId, monsterType) => {
     if (inBattleRef.current) return
@@ -744,23 +761,19 @@ function HobbiesGame() {
 
     if (phase === 'end_win' && prev) {
       sfx.win()
+      if (prev.monsterId === 'boss_npc') {
+        bossDefeatedRef.current = true
+        setBossDefeated(true)
+      }
       const mType = MONSTER_TYPES[prev.monsterType]
       grantXP(mType.xpGain)
-      /* mark monster dead → respawn timer */
       const m = monstersRef.current.find(mn => mn.id === prev.monsterId)
-      if (m) {
-        m.dead = true
-        m.respawnTimer = RESPAWN_DELAY
-      }
-      /* quest kill tracking */
-      if (questRef.current === 'active') {
+      if (m) { m.dead = true; m.respawnTimer = RESPAWN_DELAY }
+      if (questRef.current === 'active' && prev.monsterId !== 'boss_npc') {
         const newKills = questKillsRef.current + 1
         questKillsRef.current = newKills
         setQuestKills(newKills)
-        if (newKills >= 3) {
-          questRef.current = 'ready'
-          setQuestState('ready')
-        }
+        if (newKills >= 3) { questRef.current = 'ready'; setQuestState('ready') }
       }
     }
 
@@ -891,8 +904,8 @@ function HobbiesGame() {
       if (isMoving) {
         const pps = (sprint ? SPEED * SPRINT_MUL : SPEED) * dt
         posRef.current = {
-          x: Math.max(0.02, Math.min(0.98, posRef.current.x + dx * pps / wW)),
-          y: Math.max(0.02, Math.min(0.96, posRef.current.y + dy * pps / wH)),
+          x: Math.max(0.13, Math.min(0.87, posRef.current.x + dx * pps / wW)),
+          y: Math.max(0.13, Math.min(0.87, posRef.current.y + dy * pps / wH)),
         }
         let dir = 's'
         if (left && !right) dir = 'a'
@@ -1065,8 +1078,8 @@ function HobbiesGame() {
             const bdy = playerWPy - mWPy
             const bd  = Math.hypot(bdx, bdy)
             const pps = MONSTER_SPEED * dt
-            m.pos.x = Math.max(0.02, Math.min(0.98, m.pos.x + (bdx / bd) * pps / wW))
-            m.pos.y = Math.max(0.02, Math.min(0.96, m.pos.y + (bdy / bd) * pps / wH))
+            m.pos.x = Math.max(0.13, Math.min(0.87, m.pos.x + (bdx / bd) * pps / wW))
+            m.pos.y = Math.max(0.13, Math.min(0.87, m.pos.y + (bdy / bd) * pps / wH))
           } else {
             if (m.waitTime > 0) {
               m.waitTime -= dt
@@ -1076,8 +1089,8 @@ function HobbiesGame() {
               m.waitTime = 1.5 + Math.random() * 2
             }
             const pps = MONSTER_SPEED * 0.35 * dt
-            m.pos.x = Math.max(0.03, Math.min(0.97, m.pos.x + m.wanderDx * pps / wW))
-            m.pos.y = Math.max(0.03, Math.min(0.95, m.pos.y + m.wanderDy * pps / wH))
+            m.pos.x = Math.max(0.13, Math.min(0.87, m.pos.x + m.wanderDx * pps / wW))
+            m.pos.y = Math.max(0.13, Math.min(0.87, m.pos.y + m.wanderDy * pps / wH))
           }
 
           if (dist < MONSTER_HIT_R) {
@@ -1389,6 +1402,8 @@ function HobbiesGame() {
           onAdvanceDialog={advanceInteriorDialog}
           onExit={exitBuilding}
           playerElRef={interiorPlayerElRef}
+          onBossChallenge={startBossBattle}
+          bossDefeated={bossDefeated}
         />
       )}
 

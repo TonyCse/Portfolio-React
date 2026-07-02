@@ -30,19 +30,7 @@
   flex: 1;
   position: relative;
   overflow: hidden;
-  /* Pokemon-style overworld grass */
-  background:
-    repeating-linear-gradient(
-      0deg,
-      transparent 0px, transparent 31px,
-      rgba(0, 0, 0, 0.06) 31px, rgba(0, 0, 0, 0.06) 32px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent 0px, transparent 31px,
-      rgba(0, 0, 0, 0.06) 31px, rgba(0, 0, 0, 0.06) 32px
-    ),
-    radial-gradient(ellipse 90% 80% at 50% 40%, #78c850 0%, #60b040 30%, #50a030 60%, #3a8020 100%);
+  background: radial-gradient(ellipse 90% 80% at 50% 40%, #78c850 0%, #60b040 30%, #50a030 60%, #3a8020 100%);
 }
 
 /* ── WORLD (scrolling container) ─────────────────────────────────── */
@@ -1170,7 +1158,7 @@
   border: 2px solid #fff;
   color: #fff;
   font-family: 'Press Start 2P', monospace;
-  font-size: 15px;
+  font-size: 12px;
   cursor: pointer;
   transition: background 0.1s;
   white-space: nowrap;
@@ -1389,6 +1377,36 @@
   color: #000000;
   margin-top: 6px;
 }
+
+/* ── Boss choice buttons ─────────────────────────────────────────── */
+.hg-boss-choice {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  justify-content: center;
+}
+.hg-boss-choice-fight,
+.hg-boss-choice-flee {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  padding: 8px 12px;
+  border: 2px solid;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: transform 0.1s, filter 0.1s;
+}
+.hg-boss-choice-fight {
+  background: #7f1d1d;
+  color: #fca5a5;
+  border-color: #f87171;
+}
+.hg-boss-choice-flee {
+  background: #1c1917;
+  color: #a8a29e;
+  border-color: #57534e;
+}
+.hg-boss-choice-fight:hover { filter: brightness(1.3); transform: scale(1.05); }
+.hg-boss-choice-flee:hover  { filter: brightness(1.2); transform: scale(1.05); }
 
 /* Barre d'infos en bas quand pas en dialogue */
 .hg-interior-hint-bar {
